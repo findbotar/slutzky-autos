@@ -417,6 +417,119 @@
     background:rgba(23,15,14,.72);padding:4px 9px;border-radius:999px;border:1px solid var(--line-strong);
   }
 
+  /* ---------- BUSCADOR / ORDEN / VISTA ---------- */
+  .filters-row2{display:flex;gap:12px;flex-wrap:wrap;align-items:center;width:100%;margin-top:12px;padding-top:14px;border-top:1px solid var(--line);}
+  .search-wrap{position:relative;flex:1 1 260px;}
+  .search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--taupe);pointer-events:none;}
+  .search-wrap input{width:100%;padding-left:40px !important;}
+  .search-clear{
+    position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    background:none;border:none;color:var(--taupe);padding:5px;display:none;line-height:0;
+  }
+  .search-clear.show{display:block;}
+  .search-clear:hover{color:var(--gold-light);}
+  .view-toggle{display:flex;border:1px solid var(--line-strong);border-radius:var(--radius-sm);overflow:hidden;}
+  .view-toggle button{
+    background:var(--ink-2);border:none;color:var(--taupe);padding:11px 13px;line-height:0;
+    transition:background .2s,color .2s;
+  }
+  .view-toggle button.active{background:var(--gold);color:var(--ink);}
+
+  /* lista compacta */
+  .grid.list-view{grid-template-columns:1fr;gap:14px;}
+  .grid.list-view .car-card{display:grid;grid-template-columns:220px 1fr;align-items:stretch;}
+  .grid.list-view .card-media{aspect-ratio:auto;border-bottom:none;border-right:1px solid var(--line);}
+  .grid.list-view .card-body{display:flex;flex-direction:column;justify-content:center;}
+  .grid.list-view .follow-tag{display:none;}
+
+  /* ---------- COMPARADOR ---------- */
+  .cmp-check{
+    position:absolute;bottom:12px;left:12px;z-index:4;
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--cream-dim);
+    background:rgba(23,15,14,.78);backdrop-filter:blur(6px);
+    border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;cursor:pointer;
+    transition:border-color .2s,color .2s;
+  }
+  .cmp-check:hover{border-color:var(--gold);color:var(--gold-light);}
+  .cmp-check.on{border-color:var(--gold);color:var(--gold-light);background:rgba(201,162,76,.16);}
+  .cmp-check .box{
+    width:13px;height:13px;border:1.5px solid currentColor;border-radius:3px;
+    display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .cmp-check .box svg{width:9px;height:9px;opacity:0;}
+  .cmp-check.on .box svg{opacity:1;}
+
+  .cmp-bar{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);
+    z-index:60;display:flex;align-items:center;gap:16px;
+    background:rgba(29,20,18,.95);backdrop-filter:blur(14px);
+    border:1px solid var(--gold);border-radius:999px;padding:12px 14px 12px 22px;
+    box-shadow:0 24px 50px -20px rgba(0,0,0,.8);
+    transition:transform .35s cubic-bezier(.3,.9,.4,1);
+    max-width:calc(100vw - 32px);
+  }
+  .cmp-bar.show{transform:translateX(-50%) translateY(0);}
+  .cmp-bar .lbl{font-family:var(--font-ui);font-size:12.5px;font-weight:600;color:var(--cream);white-space:nowrap;}
+  .cmp-bar .lbl b{color:var(--gold-light);}
+  .cmp-bar .clear{background:none;border:none;color:var(--taupe);font-family:var(--font-ui);font-size:11.5px;text-decoration:underline;}
+  .cmp-bar .clear:hover{color:var(--cream);}
+
+  .cmp-table{width:100%;border-collapse:collapse;}
+  .cmp-table th,.cmp-table td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+  .cmp-table th{
+    font-family:var(--font-ui);font-size:10.5px;font-weight:600;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--taupe);width:150px;
+  }
+  .cmp-table td{font-family:var(--font-serif);font-size:16px;color:var(--cream-dim);}
+  .cmp-table tr:first-child td{font-family:var(--font-display);font-size:17px;color:var(--cream);font-weight:600;}
+  .cmp-table .cmp-price{font-family:var(--font-display);font-size:19px;color:var(--gold-light);font-weight:600;}
+  .cmp-thumb{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--line);margin-bottom:10px;}
+  .cmp-best{color:var(--gold-light) !important;}
+
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox{
+    position:fixed;inset:0;background:rgba(8,5,4,.94);z-index:200;
+    display:none;align-items:center;justify-content:center;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:94vw;max-height:88vh;object-fit:contain;cursor:zoom-in;transition:transform .25s ease;}
+  .lightbox img.zoomed{cursor:zoom-out;transform:scale(2);}
+  .lb-close{
+    position:absolute;top:20px;right:20px;width:42px;height:42px;border-radius:50%;
+    border:1px solid var(--line-strong);background:rgba(29,20,18,.85);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;z-index:3;
+  }
+  .lb-close:hover{border-color:var(--gold);}
+  .lb-nav{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:48px;height:48px;border-radius:50%;
+    border:1px solid var(--line-strong);background:rgba(29,20,18,.8);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .lb-nav:hover{border-color:var(--gold);color:var(--gold-light);}
+  .lb-nav.prev{left:22px;}
+  .lb-nav.next{right:22px;}
+  .lb-count{
+    position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+    font-family:var(--font-ui);font-size:12px;color:var(--cream-dim);
+    background:rgba(29,20,18,.85);border:1px solid var(--line-strong);
+    padding:7px 16px;border-radius:999px;
+  }
+
+  /* ---------- PROGRESO DE LECTURA ---------- */
+  .read-progress{
+    position:fixed;top:0;left:0;height:2px;z-index:80;width:0%;
+    background:linear-gradient(90deg, var(--gold-deep), var(--gold-light));
+    transition:width .1s linear;
+  }
+
+  /* ---------- CARGA SUAVE DE IMÁGENES ---------- */
+  .card-media img, .gallery-slide img, .gal-thumbs img{
+    opacity:0;filter:blur(12px);transition:opacity .5s ease, filter .5s ease;
+  }
+  .card-media img.loaded, .gallery-slide img.loaded, .gal-thumbs img.loaded{opacity:1;filter:blur(0);}
+
   /* ---------- MAPA ---------- */
   .map-panel{
     margin-top:56px;border:1px solid var(--line-strong);border-radius:var(--radius);
@@ -614,6 +727,18 @@
     .footer-links{flex-wrap:wrap;gap:16px;}
     .section-head .premium-seal{display:none;}
     #saulMap{height:280px;}
+    .grid.list-view .car-card{grid-template-columns:1fr;}
+    .grid.list-view .card-media{aspect-ratio:16/10;border-right:none;border-bottom:1px solid var(--line);}
+    .cmp-bar{gap:10px;padding:10px 12px 10px 16px;bottom:14px;}
+    .cmp-bar .lbl{font-size:11.5px;}
+    .cmp-bar .clear{display:none;}
+    .cmp-table th{width:96px;padding:10px;font-size:9.5px;}
+    .cmp-table td{padding:10px;font-size:14px;}
+    .cmp-thumb{margin-bottom:6px;}
+    .lb-nav{width:40px;height:40px;}
+    .lb-nav.prev{left:10px;}
+    .lb-nav.next{right:10px;}
+    .filters-row2{gap:10px;}
     .map-panel{margin-top:36px;}
     .map-panel-head{padding:14px 16px;}
     .ticker{padding:14px 0;}
@@ -758,6 +883,31 @@
         <option value="15000-999999">Más de U$S 15.000</option>
       </select>
       <span class="count" id="resultCount"></span>
+      <div class="filters-row2">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="search" id="fBuscar" placeholder="Buscar por marca o modelo — ej: Cruze" autocomplete="off">
+          <button class="search-clear" id="searchClear" aria-label="Limpiar búsqueda">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <select id="fOrden">
+          <option value="">Ordenar por…</option>
+          <option value="precio-asc">Precio: menor a mayor</option>
+          <option value="precio-desc">Precio: mayor a menor</option>
+          <option value="km-asc">Menos kilómetros</option>
+          <option value="anio-desc">Más nuevos</option>
+          <option value="anio-asc">Más antiguos</option>
+        </select>
+        <div class="view-toggle">
+          <button id="viewGrid" class="active" aria-label="Vista grilla">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </button>
+          <button id="viewList" aria-label="Vista lista">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="grid" id="carGrid"></div>
@@ -974,6 +1124,28 @@
   </div>
 </footer>
 
+<div class="read-progress" id="readProgress"></div>
+
+<div class="cmp-bar" id="cmpBar">
+  <span class="lbl"><b id="cmpCount">0</b> autos seleccionados</span>
+  <button class="clear" id="cmpClear">Limpiar</button>
+  <button class="btn btn-primary" id="cmpOpen" style="padding:10px 20px;">Comparar</button>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="Cerrar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <button class="lb-nav prev" id="lbPrev" aria-label="Anterior">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <img id="lbImg" alt="">
+  <button class="lb-nav next" id="lbNext" aria-label="Siguiente">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <span class="lb-count" id="lbCount"></span>
+</div>
+
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal">
     <button class="modal-close" id="modalClose" aria-label="Cerrar">
@@ -1080,6 +1252,8 @@ function stampSVG(){
   </svg>`;
 }
 
+const cmpSet = new Set();
+
 function grid(){ return document.getElementById('carGrid'); }
 
 function renderCards(list){
@@ -1095,11 +1269,15 @@ function renderCards(list){
         <span class="stock-tag">Unidad ${c.id}</span>
         ${c.primerDueno ? `<span class="seal" title="Primer dueño">${sealSVG}</span>` : ''}
         ${c.fotos && c.fotos.length
-          ? `<img src="${c.fotos[0]}" alt="${c.marca} ${c.modelo}" loading="lazy">
+          ? `<img src="${c.fotos[0]}" alt="${c.marca} ${c.modelo}" loading="lazy" onload="this.classList.add('loaded')">
              ${c.fotos.length > 1 ? `<span class="card-photo-count">
                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                ${c.fotos.length}</span>` : ''}`
           : carSVG}
+        <span class="cmp-check ${cmpSet.has(c.id)?'on':''}" data-cmp="${c.id}">
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg></span>
+          Comparar
+        </span>
         <span class="follow-tag">Ver ficha</span>
       </div>
       <div class="card-body">
@@ -1120,13 +1298,29 @@ function renderCards(list){
   document.getElementById('resultCount').textContent = list.length + (list.length===1?' unidad':' unidades');
 
   g.querySelectorAll('.car-card').forEach(el => {
-    el.addEventListener('click', () => openModal(parseInt(el.dataset.id)));
+    el.addEventListener('click', e => {
+      if(e.target.closest('.cmp-check')) return;
+      openModal(parseInt(el.dataset.id));
+    });
     const media = el.querySelector('.card-media');
     const tag = el.querySelector('.follow-tag');
     media.addEventListener('mousemove', e => {
       const r = media.getBoundingClientRect();
       tag.style.left = (e.clientX - r.left) + 'px';
       tag.style.top = (e.clientY - r.top) + 'px';
+    });
+  });
+
+  g.querySelectorAll('.cmp-check').forEach(chk => {
+    chk.addEventListener('click', e => {
+      e.stopPropagation();
+      const id = parseInt(chk.dataset.cmp);
+      if(cmpSet.has(id)){ cmpSet.delete(id); chk.classList.remove('on'); }
+      else {
+        if(cmpSet.size >= 3){ flashCmpLimit(); return; }
+        cmpSet.add(id); chk.classList.add('on');
+      }
+      updateCmpBar();
     });
   });
   observeReveals(g);
@@ -1145,9 +1339,18 @@ function applyFilters(){
   const marca = document.getElementById('fMarca').value;
   const comb = document.getElementById('fCombustible').value;
   const rango = document.getElementById('fPrecio').value;
+  const q = (document.getElementById('fBuscar').value || '').trim().toLowerCase();
+  const orden = document.getElementById('fOrden').value;
+
+  document.getElementById('searchClear').classList.toggle('show', q.length > 0);
+
   let list = CARS.filter(c => {
     if(marca && c.marca !== marca) return false;
     if(comb && c.combustible !== comb) return false;
+    if(q){
+      const hay = `${c.marca} ${c.modelo} ${c.segmento} ${c.color} ${c.anio}`.toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
     if(rango){
       const [min,max] = rango.split('-').map(Number);
       if(c.moneda !== 'USD') return false;
@@ -1155,11 +1358,44 @@ function applyFilters(){
     }
     return true;
   });
+
+  if(orden){
+    const usd = c => c.moneda === 'USD' ? c.precio : (c.precio ? c.precio/1350 : null);
+    list = [...list].sort((a,b) => {
+      switch(orden){
+        case 'precio-asc':  return (usd(a) ?? Infinity) - (usd(b) ?? Infinity);
+        case 'precio-desc': return (usd(b) ?? -Infinity) - (usd(a) ?? -Infinity);
+        case 'km-asc':      return a.km - b.km;
+        case 'anio-desc':   return b.anio - a.anio;
+        case 'anio-asc':    return a.anio - b.anio;
+        default: return 0;
+      }
+    });
+  }
   renderCards(list);
 }
 
-['fMarca','fCombustible','fPrecio'].forEach(id => {
+['fMarca','fCombustible','fPrecio','fOrden'].forEach(id => {
   document.getElementById(id).addEventListener('change', applyFilters);
+});
+document.getElementById('fBuscar').addEventListener('input', applyFilters);
+document.getElementById('searchClear').addEventListener('click', () => {
+  document.getElementById('fBuscar').value = '';
+  applyFilters();
+  document.getElementById('fBuscar').focus();
+});
+
+/* Vista grilla / lista */
+const gridEl = document.getElementById('carGrid');
+document.getElementById('viewGrid').addEventListener('click', () => {
+  gridEl.classList.remove('list-view');
+  document.getElementById('viewGrid').classList.add('active');
+  document.getElementById('viewList').classList.remove('active');
+});
+document.getElementById('viewList').addEventListener('click', () => {
+  gridEl.classList.add('list-view');
+  document.getElementById('viewList').classList.add('active');
+  document.getElementById('viewGrid').classList.remove('active');
 });
 
 /* ---------- GALERÍA DE FOTOS ---------- */
@@ -1178,7 +1414,7 @@ function renderGallery(c){
   }
 
   const slides = fotos.map((f,i) =>
-    `<div class="gallery-slide"><img src="${f}" alt="${c.marca} ${c.modelo} — foto ${i+1}" ${i>0?'loading="lazy"':''}></div>`
+    `<div class="gallery-slide"><img src="${f}" alt="${c.marca} ${c.modelo} — foto ${i+1}" ${i>0?'loading="lazy"':''} onload="this.classList.add('loaded')" style="cursor:zoom-in" data-lb="${i}"></div>`
   ).join('');
 
   const multi = fotos.length > 1;
@@ -1198,9 +1434,16 @@ function renderGallery(c){
         </div>` : ''}
     </div>
     ${multi ? `<div class="gal-thumbs" id="galThumbs">
-      ${fotos.map((f,i)=>`<button data-i="${i}" class="${i===0?'active':''}"><img src="${f}" alt="" loading="lazy"></button>`).join('')}
+      ${fotos.map((f,i)=>`<button data-i="${i}" class="${i===0?'active':''}"><img src="${f}" alt="" loading="lazy" onload="this.classList.add('loaded')"></button>`).join('')}
     </div>` : ''}
   `;
+
+  box.querySelectorAll('img[data-lb]').forEach(im => {
+    im.addEventListener('click', e => {
+      e.stopPropagation();
+      openLightbox(fotos, parseInt(im.dataset.lb));
+    });
+  });
 
   if(!multi) return;
 
@@ -1245,6 +1488,103 @@ function renderGallery(c){
   window.galGo = go;
 }
 
+/* ---------- LIGHTBOX CON ZOOM ---------- */
+let lbFotos = [], lbIndex = 0;
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+
+function openLightbox(fotos, i){
+  lbFotos = fotos; lbIndex = i;
+  showLb();
+  lightbox.classList.add('open');
+}
+function showLb(){
+  lbImg.src = lbFotos[lbIndex];
+  lbImg.classList.remove('zoomed');
+  document.getElementById('lbCount').textContent = `${lbIndex+1} / ${lbFotos.length}`;
+  const multi = lbFotos.length > 1;
+  document.getElementById('lbPrev').style.display = multi ? 'flex' : 'none';
+  document.getElementById('lbNext').style.display = multi ? 'flex' : 'none';
+  document.getElementById('lbCount').style.display = multi ? 'block' : 'none';
+}
+function closeLightbox(){ lightbox.classList.remove('open'); }
+lbImg.addEventListener('click', () => lbImg.classList.toggle('zoomed'));
+document.getElementById('lbClose').addEventListener('click', closeLightbox);
+document.getElementById('lbPrev').addEventListener('click', e => { e.stopPropagation(); lbIndex=(lbIndex-1+lbFotos.length)%lbFotos.length; showLb(); });
+document.getElementById('lbNext').addEventListener('click', e => { e.stopPropagation(); lbIndex=(lbIndex+1)%lbFotos.length; showLb(); });
+lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
+
+/* ---------- BARRA DE PROGRESO ---------- */
+const readProgress = document.getElementById('readProgress');
+function updateProgress(){
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  readProgress.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+window.addEventListener('resize', updateProgress);
+updateProgress();
+
+/* ---------- COMPARADOR ---------- */
+const cmpBar = document.getElementById('cmpBar');
+
+function updateCmpBar(){
+  document.getElementById('cmpCount').textContent = cmpSet.size;
+  cmpBar.classList.toggle('show', cmpSet.size > 0);
+  document.getElementById('cmpOpen').disabled = cmpSet.size < 2;
+  document.getElementById('cmpOpen').style.opacity = cmpSet.size < 2 ? .45 : 1;
+}
+function flashCmpLimit(){
+  const lbl = cmpBar.querySelector('.lbl');
+  const original = lbl.innerHTML;
+  lbl.innerHTML = 'Máximo 3 autos';
+  setTimeout(() => { lbl.innerHTML = original; updateCmpBar(); }, 1400);
+}
+document.getElementById('cmpClear').addEventListener('click', () => {
+  cmpSet.clear();
+  document.querySelectorAll('.cmp-check.on').forEach(el => el.classList.remove('on'));
+  updateCmpBar();
+});
+
+function openCompare(){
+  const items = [...cmpSet].map(id => CARS.find(c => c.id === id)).filter(Boolean);
+  if(items.length < 2) return;
+
+  const minPrecio = Math.min(...items.filter(c=>c.moneda==='USD'&&c.precio).map(c=>c.precio));
+  const minKm = Math.min(...items.map(c=>c.km));
+  const maxAnio = Math.max(...items.map(c=>c.anio));
+
+  const cols = items.map(c => `
+    <td>
+      ${c.fotos && c.fotos.length ? `<img class="cmp-thumb" src="${c.fotos[0]}" alt="${c.marca} ${c.modelo}">` : ''}
+      ${c.marca} ${c.modelo}
+    </td>`).join('');
+
+  const row = (label, fn) => `<tr><th>${label}</th>${items.map(c=>`<td>${fn(c)}</td>`).join('')}</tr>`;
+
+  document.getElementById('modalGallery').innerHTML = '';
+  document.getElementById('modalBody').innerHTML = `
+    <span class="eyebrow">Comparación</span>
+    <h2>${items.length} unidades lado a lado</h2>
+    <table class="cmp-table">
+      <tr><th></th>${cols}</tr>
+      ${row('Precio', c => `<span class="cmp-price ${c.moneda==='USD'&&c.precio===minPrecio?'cmp-best':''}">${fmtPrecio(c)}</span>`)}
+      ${row('Año', c => `<span class="${c.anio===maxAnio?'cmp-best':''}">${c.anio}</span>`)}
+      ${row('Kilometraje', c => `<span class="${c.km===minKm?'cmp-best':''}">${fmtKm(c)}</span>`)}
+      ${row('Combustible', c => c.combustible)}
+      ${row('Carrocería', c => c.segmento)}
+      ${row('Color', c => c.color)}
+      ${row('Titular', c => c.primerDueno ? 'Primer y único dueño' : 'Segundo titular')}
+    </table>
+    <p style="font-family:var(--font-ui);font-size:11.5px;color:var(--taupe);margin-top:16px;">
+      En dorado se destaca el mejor valor de cada fila.
+    </p>
+  `;
+  document.getElementById('modalBackdrop').classList.add('open');
+  if(modalScroll){ modalScroll.scrollTop = 0; requestAnimationFrame(()=>setTimeout(updateScrollHint,60)); }
+}
+document.getElementById('cmpOpen').addEventListener('click', openCompare);
+updateCmpBar();
+
 /* Indicador de scroll dentro de la ficha */
 const modalScroll = document.querySelector('.modal-scroll');
 const scrollHint = document.getElementById('scrollHint');
@@ -1258,9 +1598,12 @@ if(modalScroll){
   window.addEventListener('resize', updateScrollHint);
 }
 
-function openModal(id){
+function openModal(id, fromHash){
   const c = CARS.find(x => x.id === id);
   if(!c) return;
+  if(!fromHash && location.hash !== '#auto-' + id){
+    history.pushState(null, '', '#auto-' + id);
+  }
   renderGallery(c);
   document.getElementById('modalBody').innerHTML = `
     ${c.primerDueno ? stampSVG() : ''}
@@ -1284,15 +1627,37 @@ function openModal(id){
     requestAnimationFrame(() => setTimeout(updateScrollHint, 60));
   }
 }
-document.getElementById('modalClose').addEventListener('click', () => {
+function closeModal(){
   document.getElementById('modalBackdrop').classList.remove('open');
-});
+  if(location.hash.startsWith('#auto-')) history.pushState(null, '', location.pathname + location.search);
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalBackdrop').addEventListener('click', e => {
-  if(e.target.id === 'modalBackdrop') e.currentTarget.classList.remove('open');
+  if(e.target.id === 'modalBackdrop') closeModal();
 });
+
+/* Deep linking: cada auto tiene su propio link compartible */
+function syncHashToModal(){
+  const m = location.hash.match(/^#auto-(\d+)$/);
+  if(m){
+    const id = parseInt(m[1]);
+    if(CARS.some(c => c.id === id)) openModal(id, true);
+  } else {
+    document.getElementById('modalBackdrop').classList.remove('open');
+  }
+}
+window.addEventListener('popstate', syncHashToModal);
+if(location.hash.startsWith('#auto-')) setTimeout(syncHashToModal, 100);
+
 document.addEventListener('keydown', e => {
+  if(lightbox.classList.contains('open')){
+    if(e.key === 'Escape') closeLightbox();
+    if(e.key === 'ArrowLeft'){ lbIndex=(lbIndex-1+lbFotos.length)%lbFotos.length; showLb(); }
+    if(e.key === 'ArrowRight'){ lbIndex=(lbIndex+1)%lbFotos.length; showLb(); }
+    return;
+  }
   const isOpen = document.getElementById('modalBackdrop').classList.contains('open');
-  if(e.key === 'Escape') document.getElementById('modalBackdrop').classList.remove('open');
+  if(e.key === 'Escape') closeModal();
   if(isOpen && galCount > 1 && window.galGo){
     if(e.key === 'ArrowLeft') window.galGo(galIndex - 1);
     if(e.key === 'ArrowRight') window.galGo(galIndex + 1);
