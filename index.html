@@ -476,6 +476,28 @@
     scrollbar-width:none;-ms-overflow-style:none;
   }
   .modal-scroll::-webkit-scrollbar{width:0;height:0;display:none;background:transparent;}
+  .scroll-hint{
+    position:absolute;left:0;right:0;bottom:0;height:80px;z-index:8;
+    pointer-events:none;
+    background:linear-gradient(to top, var(--surface) 10%, rgba(36,24,19,.85) 45%, transparent);
+    display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;
+    opacity:0;transition:opacity .3s ease;
+  }
+  .scroll-hint.show{opacity:1;}
+  .scroll-hint span{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:var(--font-ui);font-size:11.5px;font-weight:600;letter-spacing:.04em;
+    color:var(--gold-light);background:rgba(29,20,18,.9);
+    border:1px solid rgba(201,162,76,.45);border-radius:999px;padding:7px 15px;
+    animation:hintBob 1.8s ease-in-out infinite;
+  }
+  @keyframes hintBob{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(4px);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .scroll-hint span{animation:none;}
+  }
   .modal-close{
     position:absolute;top:16px;right:16px;
     width:36px;height:36px;border-radius:50%;
@@ -961,6 +983,12 @@
       <div id="modalGallery"></div>
       <div class="modal-body" id="modalBody"></div>
     </div>
+    <div class="scroll-hint" id="scrollHint">
+      <span>
+        Seguí bajando
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </span>
+    </div>
   </div>
 </div>
 
@@ -1176,6 +1204,10 @@ function renderGallery(c){
 
   if(!multi) return;
 
+  box.querySelectorAll('img').forEach(im => {
+    im.addEventListener('load', () => { if(typeof updateScrollHint === 'function') updateScrollHint(); });
+  });
+
   const track = document.getElementById('galTrack');
   const dots = document.getElementById('galDots');
   const thumbs = document.getElementById('galThumbs');
@@ -1213,6 +1245,19 @@ function renderGallery(c){
   window.galGo = go;
 }
 
+/* Indicador de scroll dentro de la ficha */
+const modalScroll = document.querySelector('.modal-scroll');
+const scrollHint = document.getElementById('scrollHint');
+function updateScrollHint(){
+  if(!modalScroll || !scrollHint) return;
+  const remaining = modalScroll.scrollHeight - modalScroll.scrollTop - modalScroll.clientHeight;
+  scrollHint.classList.toggle('show', remaining > 40);
+}
+if(modalScroll){
+  modalScroll.addEventListener('scroll', updateScrollHint, {passive:true});
+  window.addEventListener('resize', updateScrollHint);
+}
+
 function openModal(id){
   const c = CARS.find(x => x.id === id);
   if(!c) return;
@@ -1234,6 +1279,10 @@ function openModal(id){
     </div>
   `;
   document.getElementById('modalBackdrop').classList.add('open');
+  if(modalScroll){
+    modalScroll.scrollTop = 0;
+    requestAnimationFrame(() => setTimeout(updateScrollHint, 60));
+  }
 }
 document.getElementById('modalClose').addEventListener('click', () => {
   document.getElementById('modalBackdrop').classList.remove('open');
