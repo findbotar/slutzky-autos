@@ -105,13 +105,12 @@
   /* ---------- NAV ---------- */
   header.nav{
     position:sticky;top:0;z-index:40;
-    background:var(--ink);
+    background:rgba(23,15,14,.88);
+    backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
-  @supports (backdrop-filter: blur(10px)){
-    @media (min-width:901px){
-      header.nav{background:rgba(23,15,14,.88);backdrop-filter:blur(10px);}
-    }
+  @supports not (backdrop-filter: blur(10px)){
+    header.nav{background:var(--ink);}
   }
   .nav-inner{
     display:flex;align-items:center;justify-content:space-between;
@@ -1618,41 +1617,6 @@ function openCompare(){
 }
 document.getElementById('cmpOpen').addEventListener('click', openCompare);
 updateCmpBar();
-
-/* ====== DIAGNÓSTICO 2 — BORRAR DESPUÉS ====== */
-(function(){
-  const box = document.createElement('div');
-  box.id = '__diag2';
-  box.style.cssText = 'position:fixed;left:6px;bottom:6px;z-index:99999;background:#000;color:#0f0;'
-    + 'font:12px/1.5 monospace;padding:10px 12px;border:2px solid #0f0;border-radius:6px;max-width:92vw;';
-  document.body.appendChild(box);
-
-  let maxSW = 0;
-  function upd(){
-    const vv = window.visualViewport;
-    const scale = vv ? vv.scale.toFixed(2) : 'n/d';
-    const lw = document.documentElement.clientWidth;
-    const sw = document.documentElement.scrollWidth;
-    if(sw > maxSW) maxSW = sw;
-    const zoom = vv && vv.scale > 1.01;
-    box.style.color = zoom ? '#ff4' : '#0f0';
-    box.style.borderColor = zoom ? '#ff4' : '#0f0';
-    box.innerHTML =
-      `<b>ZOOM: ${scale}${zoom ? ' ← ZOOMEADO' : ' (normal)'}</b><br>` +
-      `ancho pantalla: ${lw}<br>` +
-      `ancho pagina: ${sw}<br>` +
-      `maximo visto: ${maxSW}<br>` +
-      `desborde: ${maxSW > lw ? 'SI (' + (maxSW-lw) + 'px)' : 'NO'}`;
-  }
-  upd();
-  setInterval(upd, 500);
-  window.addEventListener('scroll', upd, {passive:true});
-  if(window.visualViewport){
-    window.visualViewport.addEventListener('resize', upd);
-    window.visualViewport.addEventListener('scroll', upd);
-  }
-})();
-/* ====== FIN DIAGNÓSTICO 2 ====== */
 
 /* Indicador de scroll dentro de la ficha */
 const modalScroll = document.querySelector('.modal-scroll');
