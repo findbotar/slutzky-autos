@@ -471,16 +471,17 @@
     max-width:760px;width:100%;max-height:88vh;overflow-y:auto;overflow-x:hidden;
     background:var(--surface);border:1px solid var(--line-strong);border-radius:20px;
     position:relative;
-    scrollbar-width:thin;scrollbar-color:var(--gold-deep) var(--surface);
+    scrollbar-width:thin;scrollbar-color:rgba(201,162,76,.35) transparent;
   }
-  .modal::-webkit-scrollbar{width:7px;}
+  .modal::-webkit-scrollbar{width:5px;}
   .modal::-webkit-scrollbar-track{background:transparent;}
-  .modal::-webkit-scrollbar-thumb{background:var(--gold-deep);border-radius:8px;}
-  .modal::-webkit-scrollbar-thumb:hover{background:var(--gold);}
+  .modal::-webkit-scrollbar-thumb{background:rgba(201,162,76,.3);border-radius:8px;}
+  .modal::-webkit-scrollbar-thumb:hover{background:rgba(201,162,76,.55);}
   .modal-close{
-    position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;
-    border:1px solid var(--line-strong);background:var(--ink-2);color:var(--cream);
-    display:flex;align-items:center;justify-content:center;z-index:4;
+    position:sticky;top:16px;float:right;margin:16px 16px -52px 0;
+    width:36px;height:36px;border-radius:50%;
+    border:1px solid var(--line-strong);background:rgba(29,20,18,.85);backdrop-filter:blur(6px);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;z-index:6;
   }
   .modal-close:hover{border-color:var(--gold);}
   .modal-media{aspect-ratio:16/8;background:radial-gradient(ellipse at 60% 35%, var(--surface-2), var(--ink-2) 75%);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);border-radius:20px 20px 0 0;}
@@ -989,7 +990,7 @@ console.log(
 --------------------------------------------------------------- */
 const CARS = [
   {id:1000, marca:"Chevrolet", modelo:"Cruze II LTZ Automático", anio:2018, km:53500, color:"Blanco perlado", segmento:"Sedán 5 puertas", combustible:"Nafta", primerDueno:true, precio:20900, moneda:"USD",
-   fotos:["assets/autos/demo-1.jpg","assets/autos/demo-2.jpg","assets/autos/demo-3.jpg","assets/autos/demo-4.jpg"],
+   fotos:["assets/autos/1000-1.jpg","assets/autos/1000-2.jpg","assets/autos/1000-3.jpg","assets/autos/1000-4.jpg","assets/autos/1000-5.jpg"],
    detalles:"Chevrolet Cruze II LTZ, automático y secuencial, 5 puertas. Único titular, radicado en CABA. 6 airbags, ABS, dirección asistida, climatizador, 4 levantavidrios eléctricos, cierre centralizado con comando a distancia y alarma, espejos eléctricos, techo solar eléctrico, llantas de aleación, control crucero, sensores de estacionamiento con cámara de retroceso, Bluetooth, tapizado en cuero. VTV y grabado de autopartes vigentes. Financiación prendaria de 12 a 60 meses con Banco Santander Río."},
   {id:1007, marca:"Volkswagen", modelo:"Fox Trendline 1.6L", anio:2012, km:156701, color:"Negro", segmento:"Sedán 3 puertas", combustible:"Nafta", primerDueno:false, precio:11900000, moneda:"ARS",
    detalles:"Volkswagen Fox 1.6 Trendline, 3 puertas, radicado en Capital Federal. Aire acondicionado, dirección asistida, levantavidrios delanteros eléctricos, cierre centralizado con alarma, llantas de aleación, cubiertas Pirelli seminuevas, pantalla Sony. Grabado de autopartes y VTV vigentes. Se entrega con transferencia terminada."},
