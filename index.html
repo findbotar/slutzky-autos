@@ -205,15 +205,17 @@
   .seg-row p{font-family:var(--font-serif);font-size:16.5px;color:var(--taupe);flex:1 1 240px;}
 
   /* ---------- SCROLL REVEAL ---------- */
-  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease;}
-  .reveal.in-view{opacity:1;transform:translateY(0);}
+  /* Content is visible by default. The .reveal-ready class is added by JS,
+     so if scripts fail the text still shows rather than staying invisible. */
+  .reveal-ready .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal-ready .reveal.in-view{opacity:1;transform:translateY(0);}
   .tl-item:nth-child(2){transition-delay:.08s;}
   .tl-item:nth-child(3){transition-delay:.16s;}
   .tl-item:nth-child(4){transition-delay:.24s;}
   .seg-row:nth-child(2){transition-delay:.08s;}
   .seg-row:nth-child(3){transition-delay:.16s;}
   @media (prefers-reduced-motion:reduce){
-    .reveal{opacity:1;transform:none;transition:none;}
+    .reveal, .reveal-ready .reveal{opacity:1;transform:none;transition:none;}
   }
 
   /* ---------- TICKER ---------- */
@@ -454,6 +456,9 @@
     .nav-toggle{display:flex;}
     .grid{grid-template-columns:repeat(2,1fr);}
     .seg-editorial{grid-template-columns:1fr;gap:32px;}
+    .seg-row{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px;padding:20px 0;}
+    .seg-row h3{flex:none;}
+    .seg-row p{flex:none;}
     .contact-grid{grid-template-columns:1fr;gap:36px;}
     .modal-specs{grid-template-columns:repeat(2,1fr);}
     section{padding:64px 0;}
@@ -481,8 +486,6 @@
     .filters select{min-width:0;flex:1 1 45%;}
     .filters .count{margin-left:0;width:100%;text-align:center;}
     .section-head{margin-bottom:28px;}
-    .seg-row{flex-direction:column;gap:6px;}
-    .seg-row h3{flex:none;}
     .seg-lead p{font-size:18px;}
     .seg-lead p::first-letter{font-size:54px;}
     .timeline{padding-left:24px;}
@@ -1011,7 +1014,10 @@ if(navToggle && mobileMenu){
   });
 }
 
-/* Scroll reveal */
+/* Scroll reveal — only enabled if the browser supports it */
+if('IntersectionObserver' in window){
+  document.documentElement.classList.add('reveal-ready');
+}
 const revealIO = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if(entry.isIntersecting){
@@ -1019,10 +1025,28 @@ const revealIO = new IntersectionObserver((entries) => {
       revealIO.unobserve(entry.target);
     }
   });
-}, {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+}, {threshold:0, rootMargin:'0px 0px 120px 0px'});
 function observeReveals(scope){
-  scope.querySelectorAll('.reveal').forEach(el => revealIO.observe(el));
+  scope.querySelectorAll('.reveal:not(.in-view)').forEach(el => revealIO.observe(el));
 }
+
+/* Safety net: guarantees nothing stays invisible even if the observer
+   misses an element (fast/momentum scroll edge cases on some mobile browsers) */
+function sweepReveals(){
+  document.querySelectorAll('.reveal:not(.in-view)').forEach(el => {
+    const r = el.getBoundingClientRect();
+    if(r.top < window.innerHeight + 200 && r.bottom > -200){
+      el.classList.add('in-view');
+    }
+  });
+}
+window.addEventListener('scroll', sweepReveals, {passive:true});
+window.addEventListener('resize', sweepReveals);
+let sweepBurst = 0;
+const sweepTimer = setInterval(() => {
+  sweepReveals();
+  if(++sweepBurst > 10) clearInterval(sweepTimer);
+}, 350);
 
 populateFilters();
 renderCards(CARS);
