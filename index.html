@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Saúl Slutzky — Compra y venta de autos en Buenos Aires</title>
 <meta name="description" content="Compra y venta de autos nacionales e importados en Av. Gaona 1701, CABA. 40 años de trayectoria. Seguros, créditos prendarios y gestoría del automotor.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -337,6 +339,33 @@
   form.consulta input:focus, form.consulta textarea:focus{border-color:var(--gold);}
   form.consulta textarea{resize:vertical;min-height:100px;}
 
+  /* ---------- OPINIONES ---------- */
+  .reviews-top{
+    display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+    padding:26px 30px;margin-bottom:28px;
+    border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--surface);
+  }
+  .rating-score{display:flex;align-items:baseline;gap:8px;}
+  .rating-score b{font-family:var(--font-display);font-size:44px;color:var(--gold-light);font-weight:600;line-height:1;}
+  .rating-score span{font-family:var(--font-ui);font-size:13px;color:var(--taupe);}
+  .rating-stars{display:flex;gap:3px;}
+  .rating-stars svg{width:19px;height:19px;color:var(--gold);}
+  .rating-meta{font-family:var(--font-serif);font-size:16px;color:var(--cream-dim);}
+  .rating-meta b{display:block;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--taupe);margin-bottom:3px;}
+  .reviews-top .btn{margin-left:auto;}
+  .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .review-card{
+    border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;background:var(--surface);
+    display:flex;flex-direction:column;
+  }
+  .review-card .quote-mark{font-family:var(--font-display);font-size:40px;color:var(--gold);line-height:.6;margin-bottom:12px;opacity:.8;}
+  .review-card p{font-family:var(--font-serif);font-size:16.5px;line-height:1.55;color:var(--cream-dim);flex:1;}
+  .review-card .stars{display:flex;gap:2px;margin-top:16px;}
+  .review-card .stars svg{width:14px;height:14px;color:var(--gold);}
+  .review-src{
+    font-family:var(--font-ui);font-size:11px;color:var(--taupe);margin-top:10px;letter-spacing:.03em;
+  }
+
   /* ---------- MAPA ---------- */
   .map-panel{
     margin-top:56px;border:1px solid var(--line-strong);border-radius:var(--radius);
@@ -456,6 +485,9 @@
     .nav-toggle{display:flex;}
     .grid{grid-template-columns:repeat(2,1fr);}
     .seg-editorial{grid-template-columns:1fr;gap:32px;}
+    .reviews-grid{grid-template-columns:1fr;}
+    .reviews-top{padding:20px;gap:18px;}
+    .reviews-top .btn{margin-left:0;width:100%;justify-content:center;}
     .seg-row{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px;padding:20px 0;}
     .seg-row h3{flex:none;}
     .seg-row p{flex:none;}
@@ -519,6 +551,24 @@
     *{transition:none !important; animation-duration:.01ms !important; animation-iteration-count:1 !important;}
   }
 </style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"AutoDealer",
+  "name":"Saúl Slutzky Autos y Seguros",
+  "description":"Compra y venta de autos nacionales e importados, seguros, créditos prendarios y gestoría del automotor. 40 años de trayectoria.",
+  "address":{
+    "@type":"PostalAddress",
+    "streetAddress":"Av. Gaona 1701",
+    "addressLocality":"Ciudad Autónoma de Buenos Aires",
+    "postalCode":"C1416DRF",
+    "addressCountry":"AR"
+  },
+  "geo":{"@type":"GeoCoordinates","latitude":-34.6105893,"longitude":-58.4524675},
+  "telephone":"+541145862424",
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.5","reviewCount":"36"}
+}
+</script>
 </head>
 <body>
 
@@ -530,6 +580,7 @@
     <nav class="links">
       <a href="#catalogo">Catálogo</a>
       <a href="#nosotros">Nosotros</a>
+      <a href="#opiniones">Opiniones</a>
       <a href="#seguros">Seguros y créditos</a>
       <a href="#contacto">Contacto</a>
     </nav>
@@ -544,7 +595,8 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="#catalogo">Catálogo</a>
     <a href="#nosotros">Nosotros</a>
-    <a href="#seguros">Seguros y créditos</a>
+    <a href="#opiniones">Opiniones</a>
+      <a href="#seguros">Seguros y créditos</a>
     <a href="#contacto">Contacto</a>
   </div>
 </header>
@@ -664,6 +716,80 @@
   </div>
 </section>
 
+<section id="opiniones">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Lo que dicen los clientes</span>
+        <h2>Opiniones</h2>
+      </div>
+      <p>Calificación pública en Google, sin filtros ni selección. Podés leer todas las reseñas en el perfil.</p>
+    </div>
+
+    <div class="reviews-top reveal">
+      <div class="rating-score">
+        <b>4,5</b>
+        <span>/ 5</span>
+      </div>
+      <div>
+        <div class="rating-stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+        </div>
+        <div class="rating-meta" style="margin-top:8px;"><b>Reseñas verificadas</b>36 opiniones en Google</div>
+      </div>
+      <a href="https://maps.app.goo.gl/a7LqguuoPqi6TNPW8" target="_blank" rel="noopener" class="btn btn-ghost">
+        Ver todas en Google
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="quote-mark">“</div>
+        <p>Autos de excelente calidad. Compré el mío con Saúl, dueño del local hace más de 30 años. Fue el único lugar que me recomendaron en todo el barrio.</p>
+        <div class="stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+        </div>
+        <div class="review-src">Opinión en Google</div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="quote-mark">“</div>
+        <p>También saqué el seguro con Saúl: me ofreció dos o tres compañías para comparar y nunca tuve un problema.</p>
+        <div class="stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+        </div>
+        <div class="review-src">Opinión en Google</div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="quote-mark">“</div>
+        <p>Excelente atención. Muy amables. Muy recomendable.</p>
+        <div class="stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3l-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 2z"/></svg>
+        </div>
+        <div class="review-src">Opinión en Google</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="seguros">
   <div class="wrap">
     <div class="section-head reveal">
@@ -759,6 +885,7 @@
     <div class="footer-links">
       <a href="#catalogo">Catálogo</a>
       <a href="#nosotros">Nosotros</a>
+      <a href="#opiniones">Opiniones</a>
       <a href="#seguros">Seguros y créditos</a>
       <a href="#contacto">Contacto</a>
     </div>
