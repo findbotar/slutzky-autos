@@ -462,7 +462,7 @@
 
   .cmp-bar{
     position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);
-    z-index:60;display:flex;align-items:center;gap:16px;
+    z-index:60;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;
     background:rgba(29,20,18,.95);backdrop-filter:blur(14px);
     border:1px solid var(--gold);border-radius:999px;padding:12px 14px 12px 22px;
     box-shadow:0 24px 50px -20px rgba(0,0,0,.8);
@@ -475,7 +475,8 @@
   .cmp-bar .clear{background:none;border:none;color:var(--taupe);font-family:var(--font-ui);font-size:11.5px;text-decoration:underline;}
   .cmp-bar .clear:hover{color:var(--cream);}
 
-  .cmp-table{width:100%;border-collapse:collapse;}
+  .cmp-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .cmp-table{width:100%;border-collapse:collapse;min-width:420px;}
   .cmp-table th,.cmp-table td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
   .cmp-table th{
     font-family:var(--font-ui);font-size:10.5px;font-weight:600;letter-spacing:.07em;
@@ -683,6 +684,28 @@
     section{padding:64px 0;}
     .top-banner{padding:16px 18px;}
     .wrap{padding:0 20px;}
+
+    /* funciones nuevas */
+    .grid{grid-template-columns:1fr;}
+    .grid.list-view .car-card{grid-template-columns:1fr;}
+    .grid.list-view .card-media{aspect-ratio:16/10;border-right:none;border-bottom:1px solid var(--line);}
+    .view-toggle{display:none;}
+    .filters-row2{gap:10px;}
+    .search-wrap{flex:1 1 100%;}
+    .filters select{min-width:0;flex:1 1 45%;}
+    .filters .count{margin-left:0;width:100%;text-align:center;}
+    .cmp-bar{gap:10px;padding:10px 12px 10px 16px;bottom:14px;left:16px;right:16px;transform:translateY(140%);max-width:none;justify-content:space-between;}
+    .cmp-bar.show{transform:translateY(0);}
+    .cmp-bar .lbl{font-size:11.5px;}
+    .cmp-bar .clear{display:none;}
+    .cmp-table th{width:auto;padding:8px 10px;font-size:9.5px;}
+    .cmp-table td{padding:8px 10px;font-size:13.5px;}
+    .cmp-table tr:first-child td{font-size:14px;}
+    .cmp-thumb{margin-bottom:6px;}
+    .lb-nav{width:40px;height:40px;}
+    .lb-nav.prev{left:10px;}
+    .lb-nav.next{right:10px;}
+    .lightbox img.zoomed{transform:scale(1.6);}
   }
   @media (max-width:620px){
     .grid{grid-template-columns:1fr;}
@@ -727,20 +750,11 @@
     .footer-links{flex-wrap:wrap;gap:16px;}
     .section-head .premium-seal{display:none;}
     #saulMap{height:280px;}
-    .grid.list-view .car-card{grid-template-columns:1fr;}
-    .grid.list-view .card-media{aspect-ratio:16/10;border-right:none;border-bottom:1px solid var(--line);}
-    .cmp-bar{gap:10px;padding:10px 12px 10px 16px;bottom:14px;}
-    .cmp-bar .lbl{font-size:11.5px;}
-    .cmp-bar .clear{display:none;}
-    .cmp-table th{width:96px;padding:10px;font-size:9.5px;}
-    .cmp-table td{padding:10px;font-size:14px;}
-    .cmp-thumb{margin-bottom:6px;}
+    .map-panel{margin-top:36px;}
+    .map-panel-head{padding:14px 16px;}
     .lb-nav{width:40px;height:40px;}
     .lb-nav.prev{left:10px;}
     .lb-nav.next{right:10px;}
-    .filters-row2{gap:10px;}
-    .map-panel{margin-top:36px;}
-    .map-panel-head{padding:14px 16px;}
     .ticker{padding:14px 0;}
     .ticker-track{gap:24px;animation-duration:24s;}
     .ticker-item{gap:24px;}
@@ -1565,6 +1579,7 @@ function openCompare(){
   document.getElementById('modalBody').innerHTML = `
     <span class="eyebrow">Comparación</span>
     <h2>${items.length} unidades lado a lado</h2>
+    <div class="cmp-scroll">
     <table class="cmp-table">
       <tr><th></th>${cols}</tr>
       ${row('Precio', c => `<span class="cmp-price ${c.moneda==='USD'&&c.precio===minPrecio?'cmp-best':''}">${fmtPrecio(c)}</span>`)}
@@ -1575,6 +1590,7 @@ function openCompare(){
       ${row('Color', c => c.color)}
       ${row('Titular', c => c.primerDueno ? 'Primer y único dueño' : 'Segundo titular')}
     </table>
+    </div>
     <p style="font-family:var(--font-ui);font-size:11.5px;color:var(--taupe);margin-top:16px;">
       En dorado se destaca el mejor valor de cada fila.
     </p>
