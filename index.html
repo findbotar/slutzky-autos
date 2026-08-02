@@ -1569,7 +1569,7 @@ function openCompare(){
       <tr><th></th>${cols}</tr>
       ${row('Precio', c => `<span class="cmp-price ${c.moneda==='USD'&&c.precio===minPrecio?'cmp-best':''}">${fmtPrecio(c)}</span>`)}
       ${row('Año', c => `<span class="${c.anio===maxAnio?'cmp-best':''}">${c.anio}</span>`)}
-      ${row('Kilometraje', c => `<span class="${c.km===minKm?'cmp-best':''}">${fmtKm(c)}</span>`)}
+      ${row('Kilometraje', c => `<span class="${c.km===minKm?'cmp-best':''}">${fmtKm(c.km)}</span>`)}
       ${row('Combustible', c => c.combustible)}
       ${row('Carrocería', c => c.segmento)}
       ${row('Color', c => c.color)}
