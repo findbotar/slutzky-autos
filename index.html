@@ -39,7 +39,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  html,body{max-width:100%;overflow-x:clip;}
+  html,body{max-width:100%;}
   body{
     background:var(--ink);
     color:var(--cream);
@@ -1601,6 +1601,49 @@ function openCompare(){
 }
 document.getElementById('cmpOpen').addEventListener('click', openCompare);
 updateCmpBar();
+
+/* ====== DIAGNÓSTICO TEMPORAL — BORRAR DESPUÉS ====== */
+(function(){
+  function scan(){
+    const vw = document.documentElement.clientWidth;
+    const bad = [];
+    document.querySelectorAll('body *').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if(r.width === 0 && r.height === 0) return;
+      if(el.id === '__diag') return;
+      const st = getComputedStyle(el);
+      if(st.position === 'fixed') return;
+      const right = r.right + window.scrollX;
+      const left = r.left + window.scrollX;
+      if(right > vw + 1 || left < -1){
+        bad.push({
+          desc: el.tagName.toLowerCase()
+                + (el.id ? '#'+el.id : '')
+                + (el.className && typeof el.className === 'string'
+                   ? '.'+el.className.trim().split(/\s+/).join('.') : ''),
+          right: Math.round(right), left: Math.round(left), w: Math.round(r.width)
+        });
+      }
+    });
+    bad.sort((a,b) => b.right - a.right);
+    const box = document.getElementById('__diag');
+    const info = `viewport ${vw} · scrollWidth ${document.documentElement.scrollWidth}`;
+    box.innerHTML = bad.length
+      ? `<b>DESBORDE (${bad.length})</b><br>${info}<br>` +
+        bad.slice(0,6).map(b => `→ ${b.desc}<br>&nbsp;&nbsp;L:${b.left} R:${b.right} W:${b.w}`).join('<br>')
+      : `<b>SIN DESBORDE</b><br>${info}`;
+  }
+  const box = document.createElement('div');
+  box.id = '__diag';
+  box.style.cssText = 'position:fixed;left:6px;bottom:6px;z-index:99999;background:#111;color:#0f0;'
+    + 'font:11px/1.45 monospace;padding:9px 11px;border:1px solid #0f0;max-width:94vw;'
+    + 'max-height:45vh;overflow:auto;border-radius:6px;';
+  document.body.appendChild(box);
+  setTimeout(scan, 700);
+  box.addEventListener('click', scan);
+  window.addEventListener('resize', () => setTimeout(scan, 200));
+})();
+/* ====== FIN DIAGNÓSTICO ====== */
 
 /* Indicador de scroll dentro de la ficha */
 const modalScroll = document.querySelector('.modal-scroll');
