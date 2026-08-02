@@ -392,19 +392,81 @@
     .doc-stamp{animation:none;opacity:.85;transform:scale(1) rotate(-3deg);}
   }
 
+  /* ---------- MOBILE MENU ---------- */
+  .nav-toggle{
+    display:none;background:none;border:1px solid var(--line-strong);
+    width:42px;height:42px;border-radius:50%;color:var(--cream);
+    align-items:center;justify-content:center;flex:none;
+  }
+  .nav-toggle:hover{border-color:var(--gold);}
+  .mobile-menu{
+    display:none;flex-direction:column;
+    background:var(--ink-2);border-bottom:1px solid var(--line);
+    padding:8px 24px 20px;
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{
+    font-family:var(--font-ui);font-size:15px;font-weight:500;color:var(--cream-dim);
+    padding:15px 0;border-bottom:1px solid var(--line);
+  }
+  .mobile-menu a:last-child{border-bottom:none;}
+  .mobile-menu a:hover{color:var(--gold-light);}
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:900px){
     nav.links{display:none;}
+    .nav-toggle{display:flex;}
     .grid{grid-template-columns:repeat(2,1fr);}
     .seg-editorial{grid-template-columns:1fr;gap:32px;}
-    .contact-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;gap:36px;}
     .modal-specs{grid-template-columns:repeat(2,1fr);}
+    section{padding:64px 0;}
+    .top-banner{padding:16px 18px;}
+    .wrap{padding:0 20px;}
   }
-  @media (max-width:560px){
+  @media (max-width:620px){
     .grid{grid-template-columns:1fr;}
-    .hero-panel{padding:34px 24px;}
-    .filters .count{margin-left:0;width:100%;}
-    .panel-foot{gap:26px;flex-wrap:wrap;}
+    .hero{padding:40px 0 48px;}
+    .hero-panel{padding:32px 20px 28px;}
+    .hero h1{font-size:clamp(26px,7vw,34px);}
+    .hero p.lede{font-size:16px;}
+    .script-kicker{font-size:clamp(26px,8vw,34px);}
+    .hero-actions{flex-direction:column;}
+    .hero-actions .btn{width:100%;justify-content:center;}
+    .premium-seal{width:78px;height:78px;}
+    .premium-seal span{font-size:9.5px;padding:0 6px;}
+    .hero-panel .premium-seal{top:-14px !important;right:-4px !important;}
+    .panel-foot{gap:18px;flex-wrap:wrap;}
+    .panel-foot .stat b{font-size:21px;}
+    .filters{padding:14px;}
+    .filters select{min-width:0;flex:1 1 45%;}
+    .filters .count{margin-left:0;width:100%;text-align:center;}
+    .section-head{margin-bottom:28px;}
+    .seg-row{flex-direction:column;gap:6px;}
+    .seg-row h3{flex:none;}
+    .seg-lead p{font-size:18px;}
+    .seg-lead p::first-letter{font-size:54px;}
+    .timeline{padding-left:24px;}
+    .tl-item::before{left:-29px;}
+    .modal{max-height:92vh;border-radius:14px;}
+    .modal-media{border-radius:14px 14px 0 0;}
+    .modal-body{padding:24px 20px 26px;}
+    .modal-body h2{font-size:22px;}
+    .modal-specs{gap:12px;padding:16px 0;}
+    .modal-foot{flex-direction:column;align-items:stretch;}
+    .modal-foot .btn{justify-content:center;}
+    .doc-stamp{width:74px;height:74px;top:-38px;right:16px;}
+    .footer-inner{flex-direction:column;align-items:flex-start;gap:16px;}
+    .footer-links{flex-wrap:wrap;gap:16px;}
+    .section-head .premium-seal{display:none;}
+    .ticker{padding:14px 0;}
+    .ticker-track{gap:24px;animation-duration:24s;}
+    .ticker-item{gap:24px;}
+    .ticker-item span.txt{font-size:11.5px;}
+  }
+  @media (max-width:400px){
+    .brandmark-img{height:36px;}
+    .nav-cta{padding:8px 12px;font-size:11.5px;}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -430,12 +492,21 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.86.32 1.71.6 2.53a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.55-1.55a2 2 0 0 1 2.11-.45c.82.28 1.67.48 2.53.6A2 2 0 0 1 22 16.92z"/></svg>
       4586-2424
     </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#catalogo">Catálogo</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#seguros">Seguros y créditos</a>
+    <a href="#contacto">Contacto</a>
   </div>
 </header>
 
 <div class="top-banner">
   <div class="top-banner-inner">
-    <img src="assets/banner-saul-slutzky.png" alt="Saúl Slutzky — Autos, Seguros, Gestoría">
+    <img src="assets/banner-saul-slutzky.jpg" alt="Saúl Slutzky — Autos, Seguros, Gestoría">
   </div>
 </div>
 
@@ -840,6 +911,24 @@ document.getElementById('consultaForm').addEventListener('submit', e => {
   const body = `Nombre: ${nombre}%0ATeléfono: ${tel}%0A%0A${encodeURIComponent(msg)}`;
   window.location.href = `mailto:contacto@saulslutzky-autos.com.ar?subject=Consulta%20desde%20la%20web&body=${body}`;
 });
+
+/* Mobile menu */
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+if(navToggle && mobileMenu){
+  navToggle.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded','false');
+      navToggle.setAttribute('aria-label','Abrir menú');
+    });
+  });
+}
 
 /* Scroll reveal */
 const revealIO = new IntersectionObserver((entries) => {
