@@ -99,7 +99,7 @@
 
   /* ---------- HERO FACHADA ---------- */
   .hero-shot{
-    position:relative;width:100%;
+    position:relative;width:100%;padding:0;
     height:clamp(420px, 78vh, 760px);
     overflow:hidden;background:var(--ink);
     display:flex;align-items:center;
@@ -139,15 +139,15 @@
   @keyframes cueBob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);}}
   @media (prefers-reduced-motion:reduce){.scroll-cue{animation:none;}}
   @media (max-width:900px){
-    .hero-shot{height:auto;min-height:0;display:block;background:var(--ink);padding-bottom:26px;font-size:0;}
+    .hero-shot{height:auto;min-height:0;display:block;background:var(--ink);padding:0 0 26px;font-size:0;}
     .hero-shot > picture{position:static;display:block;line-height:0;}
     .hero-shot > picture > img{
       display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;
-      -webkit-mask-image:linear-gradient(to bottom, #000 60%, rgba(0,0,0,.5) 82%, transparent 100%);
-              mask-image:linear-gradient(to bottom, #000 60%, rgba(0,0,0,.5) 82%, transparent 100%);
+      -webkit-mask-image:linear-gradient(to bottom, #000 58%, rgba(0,0,0,.45) 78%, transparent 96%);
+              mask-image:linear-gradient(to bottom, #000 58%, rgba(0,0,0,.45) 78%, transparent 96%);
     }
     .hero-shot::after{display:none;}
-    .hero-shot-inner{text-align:center;padding:0 20px 0;font-size:initial;margin-top:-30px;}
+    .hero-shot-inner{text-align:center;padding:0 20px 0;font-size:initial;margin-top:-72px;}
     .hero-shot-copy{max-width:none;}
     .hero-shot-mark{width:min(280px, 72vw);margin:0 auto 10px;}
     .hero-shot-inner .addr{margin-bottom:16px;}
