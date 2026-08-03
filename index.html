@@ -1823,6 +1823,27 @@ document.addEventListener('keydown', e => {
   }
 });
 
+/* ---------- REGISTRO DE VISITAS ----------
+   Guarda un conteo por día y por auto visto. Sin cookies, sin datos
+   personales: solo cuántas visitas hubo y qué unidades se miraron.
+   En modo demo queda en este navegador; al conectar Supabase se
+   enviará a la base para que el panel lo muestre de verdad. */
+(function(){
+  const K='slutzky_stats_v1';
+  function leer(){ try{ return JSON.parse(localStorage.getItem(K))||{visitas:{},vistas:{}}; }catch(e){ return {visitas:{},vistas:{}}; } }
+  function escribir(d){ try{ localStorage.setItem(K, JSON.stringify(d)); }catch(e){} }
+  const hoy = new Date().toISOString().slice(0,10);
+
+  // una visita por sesión
+  if(!sessionStorage.getItem('slutzky_visit')){
+    sessionStorage.setItem('slutzky_visit','1');
+    const d=leer(); d.visitas[hoy]=(d.visitas[hoy]||0)+1; escribir(d);
+  }
+  window.registrarVistaAuto = function(id){
+    const d=leer(); d.vistas[id]=(d.vistas[id]||0)+1; escribir(d);
+  };
+})();
+
 /* Indicador de scroll dentro de la ficha */
 const modalScroll = document.querySelector('.modal-scroll');
 const scrollHint = document.getElementById('scrollHint');
@@ -1843,6 +1864,7 @@ function openModal(id, fromHash){
     history.pushState(null, '', '#auto-' + id);
   }
   renderGallery(c);
+  if(window.registrarVistaAuto) window.registrarVistaAuto(c.id);
   document.getElementById('modalBody').innerHTML = `
     ${c.primerDueno ? stampSVG() : ''}
     <span class="eyebrow">Unidad N.° ${c.id} ${c.primerDueno ? '· Primer dueño' : ''}</span>

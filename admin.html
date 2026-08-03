@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel · Saúl Slutzky Autos</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141010;
+    --ink-2:#1b1614;
+    --panel:#221b18;
+    --panel-2:#2b221e;
+    --gold:#c9a24c;
+    --gold-light:#ecd28c;
+    --gold-deep:#8a6b2e;
+    --cream:#f4e9d8;
+    --cream-dim:#c3b6a4;
+    --taupe:#8d8172;
+    --green:#4f8a5b;
+    --amber:#c9903c;
+    --red:#a3505a;
+    --line:rgba(244,233,216,.11);
+    --line-2:rgba(244,233,216,.2);
+    --r:12px;
+    --f-display:'Fraunces',serif;
+    --f-ui:'Inter',sans-serif;
+    --f-mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{color-scheme:dark;}
+  body{background:var(--ink);color:var(--cream);font-family:var(--f-ui);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  input,select,textarea{font-family:inherit;}
+  img{display:block;max-width:100%;}
+  :focus-visible{outline:2px solid var(--gold-light);outline-offset:2px;}
+
+  /* ---------- LOGIN ---------- */
+  .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+  .login-card{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--line-2);border-radius:18px;padding:34px 30px;}
+  .login-card h1{font-family:var(--f-display);font-size:22px;font-weight:600;margin-bottom:4px;}
+  .login-card .sub{color:var(--taupe);font-size:13px;margin-bottom:26px;}
+  .demo-note{
+    background:rgba(201,144,60,.12);border:1px solid rgba(201,144,60,.4);
+    color:var(--amber);font-size:12px;padding:11px 13px;border-radius:9px;margin-bottom:20px;line-height:1.45;
+  }
+  .field{margin-bottom:15px;}
+  .field label{display:block;font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--taupe);margin-bottom:6px;}
+  .field input,.field select,.field textarea{
+    width:100%;background:var(--ink-2);border:1px solid var(--line-2);color:var(--cream);
+    padding:11px 13px;border-radius:9px;font-size:14px;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);}
+  .field textarea{resize:vertical;min-height:90px;}
+  .field .hint{font-size:11.5px;color:var(--taupe);margin-top:5px;}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-size:13px;font-weight:600;padding:11px 18px;border-radius:9px;
+    transition:background .18s,border-color .18s,opacity .18s;
+  }
+  .btn-primary{background:var(--gold);color:#1b1614;}
+  .btn-primary:hover{background:var(--gold-light);}
+  .btn-ghost{border:1px solid var(--line-2);color:var(--cream);}
+  .btn-ghost:hover{border-color:var(--gold);}
+  .btn-danger{border:1px solid rgba(163,80,90,.55);color:#e2909a;}
+  .btn-danger:hover{background:rgba(163,80,90,.16);}
+  .btn-sm{padding:8px 13px;font-size:12px;}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-block{width:100%;}
+
+  /* ---------- SHELL ---------- */
+  .shell{display:none;min-height:100vh;grid-template-columns:230px 1fr;}
+  .shell.on{display:grid;}
+  .side{background:var(--ink-2);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;}
+  .side-top{padding:20px 18px;border-bottom:1px solid var(--line);}
+  .side-top .mark{font-family:var(--f-display);font-size:16px;font-weight:600;}
+  .side-top .role{font-size:11px;color:var(--taupe);margin-top:2px;}
+  .side nav{padding:12px 10px;flex:1;display:flex;flex-direction:column;gap:2px;}
+  .side nav button{
+    display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+    padding:10px 12px;border-radius:9px;font-size:13.5px;color:var(--cream-dim);
+    transition:background .15s,color .15s;
+  }
+  .side nav button svg{width:17px;height:17px;flex:none;}
+  .side nav button:hover{background:rgba(244,233,216,.05);color:var(--cream);}
+  .side nav button.on{background:rgba(201,162,76,.15);color:var(--gold-light);}
+  .side nav button .badge{
+    margin-left:auto;background:var(--gold);color:#1b1614;font-size:10.5px;font-weight:700;
+    min-width:19px;height:19px;border-radius:10px;display:grid;place-items:center;padding:0 5px;
+  }
+  .side-foot{padding:14px;border-top:1px solid var(--line);}
+
+  .main{padding:26px 30px 60px;min-width:0;}
+  .page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px;}
+  .page-head h2{font-family:var(--f-display);font-size:25px;font-weight:600;}
+  .page-head p{color:var(--taupe);font-size:13px;margin-top:2px;}
+
+  .topbar-mobile{display:none;}
+
+  /* ---------- KPIs ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px;}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;}
+  .kpi .lbl{font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--taupe);margin-bottom:9px;}
+  .kpi .val{font-family:var(--f-display);font-size:30px;font-weight:600;line-height:1;}
+  .kpi .delta{font-size:11.5px;margin-top:7px;display:flex;align-items:center;gap:5px;}
+  .delta.up{color:#6fbb7f;} .delta.down{color:#d98a94;} .delta.flat{color:var(--taupe);}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;}
+  .card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;}
+  .card-head h3{font-size:14.5px;font-weight:600;}
+  .card-head .note{font-size:11.5px;color:var(--taupe);}
+
+  .grid-2{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-bottom:16px;}
+
+  /* ---------- CHART ---------- */
+  .chart{width:100%;height:190px;}
+  .chart .bar{fill:var(--gold-deep);transition:fill .15s;}
+  .chart .bar:hover{fill:var(--gold);}
+  .chart .bar.today{fill:var(--gold-light);}
+  .chart text{font-family:var(--f-mono);font-size:9px;fill:var(--taupe);}
+  .chart .grid-line{stroke:var(--line);stroke-width:1;}
+
+  /* ---------- LISTS ---------- */
+  .rank{display:flex;flex-direction:column;gap:2px;}
+  .rank-row{display:flex;align-items:center;gap:11px;padding:9px 8px;border-radius:8px;}
+  .rank-row:hover{background:rgba(244,233,216,.04);}
+  .rank-row .pos{font-family:var(--f-mono);font-size:11px;color:var(--taupe);width:16px;}
+  .rank-row .nm{flex:1;font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .rank-row .qt{font-family:var(--f-mono);font-size:12px;color:var(--gold-light);}
+  .rank-bar{height:3px;background:var(--gold-deep);border-radius:2px;margin-top:4px;}
+
+  /* ---------- TABLE ---------- */
+  .tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+  .tools input[type=search]{
+    background:var(--panel);border:1px solid var(--line-2);color:var(--cream);
+    padding:10px 13px;border-radius:9px;font-size:13px;min-width:230px;
+  }
+  .tools .spacer{margin-left:auto;}
+  table{width:100%;border-collapse:collapse;}
+  th{
+    text-align:left;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--taupe);padding:0 12px 10px;border-bottom:1px solid var(--line);
+  }
+  td{padding:12px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:middle;}
+  tr:hover td{background:rgba(244,233,216,.025);}
+  .thumb{width:62px;height:44px;object-fit:cover;border-radius:7px;border:1px solid var(--line);background:var(--panel-2);}
+  .thumb-empty{width:62px;height:44px;border-radius:7px;border:1px dashed var(--line-2);display:grid;place-items:center;color:var(--taupe);}
+  .cell-title{font-weight:600;}
+  .cell-sub{font-size:11.5px;color:var(--taupe);margin-top:1px;}
+  .mono{font-family:var(--f-mono);font-size:12.5px;}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;}
+  .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .pill.disponible{color:#7cc48c;background:rgba(79,138,91,.16);}
+  .pill.reservado{color:#e0b06a;background:rgba(201,144,60,.16);}
+  .pill.vendido{color:#d98a94;background:rgba(163,80,90,.16);}
+
+  .row-actions{display:flex;gap:6px;justify-content:flex-end;}
+  .icon-btn{
+    width:31px;height:31px;border-radius:8px;border:1px solid var(--line-2);
+    display:grid;place-items:center;color:var(--cream-dim);transition:border-color .15s,color .15s;
+  }
+  .icon-btn:hover{border-color:var(--gold);color:var(--gold-light);}
+  .icon-btn.danger:hover{border-color:var(--red);color:#e2909a;}
+
+  .empty{
+    text-align:center;padding:56px 20px;color:var(--taupe);
+    border:1px dashed var(--line-2);border-radius:var(--r);
+  }
+  .empty h4{font-family:var(--f-display);font-size:16px;color:var(--cream-dim);margin-bottom:6px;font-weight:600;}
+
+  /* ---------- CONSULTAS ---------- */
+  .msg{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;}
+  .msg.unread{border-left:3px solid var(--gold);}
+  .msg-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:8px;flex-wrap:wrap;}
+  .msg-top .who{font-weight:600;}
+  .msg-top .when{font-size:11.5px;color:var(--taupe);}
+  .msg .about{font-size:12px;color:var(--gold-light);margin-bottom:7px;}
+  .msg .body{font-size:13.5px;color:var(--cream-dim);}
+  .msg-foot{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+
+  /* ---------- MODAL ---------- */
+  .ov{position:fixed;inset:0;background:rgba(8,5,4,.8);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:26px 18px;overflow-y:auto;}
+  .ov.on{display:flex;}
+  .sheet{width:100%;max-width:720px;background:var(--panel);border:1px solid var(--line-2);border-radius:16px;margin:auto;}
+  .sheet-head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line);}
+  .sheet-head h3{font-family:var(--f-display);font-size:18px;font-weight:600;}
+  .sheet-body{padding:22px 24px;}
+  .sheet-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--line);flex-wrap:wrap;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-grid .full{grid-column:1/-1;}
+
+  .drop{
+    border:1px dashed var(--line-2);border-radius:10px;padding:18px;text-align:center;
+    color:var(--taupe);font-size:12.5px;transition:border-color .15s,background .15s;cursor:pointer;
+  }
+  .drop:hover,.drop.over{border-color:var(--gold);background:rgba(201,162,76,.06);}
+  .photos{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;}
+  .photo{position:relative;width:88px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--line-2);}
+  .photo img{width:100%;height:100%;object-fit:cover;}
+  .photo button{
+    position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;
+    background:rgba(8,5,4,.82);color:#fff;display:grid;place-items:center;
+  }
+  .photo .first{
+    position:absolute;bottom:0;left:0;right:0;background:rgba(201,162,76,.9);color:#1b1614;
+    font-size:9px;font-weight:700;text-align:center;padding:2px;
+  }
+
+  .toast{
+    position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(150%);
+    background:var(--panel);border:1px solid var(--gold);border-radius:30px;
+    padding:12px 22px;font-size:13px;font-weight:600;z-index:200;
+    box-shadow:0 20px 40px -18px rgba(0,0,0,.8);transition:transform .3s cubic-bezier(.3,.9,.4,1);
+  }
+  .toast.on{transform:translateX(-50%) translateY(0);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .shell.on{grid-template-columns:1fr;}
+    .side{position:fixed;left:0;top:0;bottom:0;width:230px;z-index:90;transform:translateX(-100%);transition:transform .25s;height:100vh;}
+    .side.open{transform:translateX(0);}
+    .topbar-mobile{
+      display:flex;align-items:center;gap:12px;padding:12px 16px;
+      border-bottom:1px solid var(--line);background:var(--ink-2);position:sticky;top:0;z-index:50;
+    }
+    .topbar-mobile .mark{font-family:var(--f-display);font-size:15px;font-weight:600;}
+    .main{padding:18px 16px 60px;}
+    .kpis{grid-template-columns:repeat(2,1fr);}
+    .grid-2{grid-template-columns:1fr;}
+    .form-grid{grid-template-columns:1fr;}
+    .scroll-x{overflow-x:auto;}
+    table{min-width:640px;}
+    .backdrop-side{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:80;display:none;}
+    .backdrop-side.on{display:block;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <h1>Panel de administración</h1>
+    <p class="sub">Saúl Slutzky Autos y Seguros</p>
+
+    <div class="demo-note" id="demoNote">
+      <b>Modo demostración.</b> Todavía no hay base de datos conectada, así que
+      los cambios se guardan solo en este navegador y no hay contraseña real.
+      Al conectar Supabase, este acceso pasa a ser seguro.
+    </div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="lgEmail">Email</label>
+        <input type="email" id="lgEmail" autocomplete="username" placeholder="tu@email.com" required>
+      </div>
+      <div class="field">
+        <label for="lgPass">Contraseña</label>
+        <input type="password" id="lgPass" autocomplete="current-password" placeholder="••••••••" required>
+      </div>
+      <p id="lgError" style="color:#e2909a;font-size:12.5px;margin-bottom:12px;display:none;"></p>
+      <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ PANEL ============ -->
+<div class="backdrop-side" id="sideBackdrop"></div>
+<div class="shell" id="shell">
+
+  <aside class="side" id="side">
+    <div class="side-top">
+      <div class="mark">Saúl Slutzky</div>
+      <div class="role" id="sideRole">Administración</div>
+    </div>
+    <nav>
+      <button data-view="resumen" class="on">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13h4v8H3zM10 3h4v18h-4zM17 9h4v12h-4z"/></svg>
+        Resumen
+      </button>
+      <button data-view="autos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 13l1.5-4.5A2 2 0 018.4 7h7.2a2 2 0 011.9 1.5L19 13v5h-2.5M5 18v-5m0 5h2.5m9 0H7.5"/><circle cx="7.5" cy="16" r="1.5"/><circle cx="16.5" cy="16" r="1.5"/></svg>
+        Autos
+        <span class="badge" id="badgeAutos">0</span>
+      </button>
+      <button data-view="consultas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v12H8l-4 3z"/></svg>
+        Consultas
+        <span class="badge" id="badgeMsgs" style="display:none">0</span>
+      </button>
+      <button data-view="ajustes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+        Ajustes
+      </button>
+    </nav>
+    <div class="side-foot">
+      <a href="index.html" target="_blank" class="btn btn-ghost btn-sm btn-block" style="margin-bottom:8px;">
+        Ver el sitio
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
+      <button class="btn btn-ghost btn-sm btn-block" id="btnLogout">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <div style="min-width:0;">
+    <div class="topbar-mobile">
+      <button class="icon-btn" id="btnSide" aria-label="Menú">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <span class="mark">Panel</span>
+    </div>
+    <main class="main" id="main"></main>
+  </div>
+</div>
+
+<!-- ============ MODALES ============ -->
+<div class="ov" id="ovAuto">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h3 id="autoSheetTitle">Nuevo auto</h3>
+      <button class="icon-btn" data-close="ovAuto" aria-label="Cerrar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="form-grid" id="autoForm"></div>
+    </div>
+    <div class="sheet-foot">
+      <button class="btn btn-ghost" data-close="ovAuto">Cancelar</button>
+      <button class="btn btn-primary" id="btnSaveAuto">Guardar auto</button>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="ovConfirm">
+  <div class="sheet" style="max-width:420px;">
+    <div class="sheet-head"><h3 id="confirmTitle">Confirmar</h3></div>
+    <div class="sheet-body"><p id="confirmText" style="color:var(--cream-dim);font-size:14px;"></p></div>
+    <div class="sheet-foot">
+      <button class="btn btn-ghost" data-close="ovConfirm">Cancelar</button>
+      <button class="btn btn-danger" id="btnConfirmYes">Sí, borrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CONFIGURACIÓN
+   Para conectar la base de datos real, completá estos dos valores
+   con los de tu proyecto de Supabase (Project Settings → API).
+   Mientras estén vacíos, el panel funciona en modo demostración
+   guardando todo en este navegador.
+   ═══════════════════════════════════════════════════════════════ */
+const SUPABASE_URL = '';
+const SUPABASE_ANON_KEY = '';
+
+const MODO_DEMO = !SUPABASE_URL || !SUPABASE_ANON_KEY;
+
+/* ---------- utilidades ---------- */
+const $ = s => document.querySelector(s);
+const el = (t,c,h) => { const e=document.createElement(t); if(c) e.className=c; if(h!=null) e.innerHTML=h; return e; };
+const esc = s => String(s??'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const nf = n => Number(n||0).toLocaleString('es-AR');
+const hoyISO = () => new Date().toISOString().slice(0,10);
+
+function toast(msg){
+  const t=$('#toast'); t.textContent=msg; t.classList.add('on');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('on'),2600);
+}
+function precioTxt(a){
+  if(a.precio==null||a.precio==='') return 'Consultar';
+  return (a.moneda==='USD'?'U$S ':'$ ') + nf(a.precio);
+}
+
+/* ═══════════════ CAPA DE DATOS ═══════════════
+   Una sola interfaz. En demo usa el navegador;
+   con Supabase configurado, usa la base real.      */
+const store = {
+  key:'slutzky_admin_v1',
+  cache:null,
+  seed(){
+    return {
+      autos:[
+        {id:1000,marca:'Chevrolet',modelo:'Cruze II LTZ Automático',anio:2018,km:53500,color:'Blanco perlado',segmento:'Sedán 5 puertas',combustible:'Nafta',primerDueno:true,precio:20900,moneda:'USD',estado:'disponible',destacado:true,fotos:['assets/autos/1000-1.jpg','assets/autos/1000-2.jpg','assets/autos/1000-3.jpg'],detalles:'Único titular, radicado en CABA. 6 airbags, ABS, climatizador, techo solar eléctrico, tapizado en cuero, cámara de retroceso.'},
+        {id:959,marca:'Chevrolet',modelo:'Cruze II LT 1.4 Turbo',anio:2019,km:51655,color:'Gris plata',segmento:'Sedán 4 puertas',combustible:'Nafta',primerDueno:true,precio:17900,moneda:'USD',estado:'disponible',destacado:false,fotos:[],detalles:'Único titular. Pantalla MyLink, cámara de estacionamiento, tapizado en cuero.'},
+        {id:1052,marca:'Renault',modelo:'Sandero RS 2.0',anio:2018,km:50609,color:'Gris plata',segmento:'Sedán 5 puertas',combustible:'Nafta',primerDueno:true,precio:13300,moneda:'USD',estado:'reservado',destacado:false,fotos:[],detalles:'Primer y único titular, radicado en CABA. Llantas 17", control crucero.'},
+        {id:944,marca:'Volkswagen',modelo:'Bora 2.0 Trendline',anio:2011,km:152000,color:'Rojo',segmento:'Sedán 4 puertas',combustible:'Nafta',primerDueno:false,precio:9200,moneda:'USD',estado:'disponible',destacado:false,fotos:[],detalles:'Segundo titular. Techo solar, 4 cubiertas nuevas. Se entrega transferido.'},
+      ],
+      consultas:[
+        {id:1,nombre:'Martín Ferreyra',tel:'11 5512-8890',email:'',autoId:1000,texto:'Buenas, quería saber si el Cruze sigue disponible y si toman usado en parte de pago.',fecha:new Date(Date.now()-3600e3*5).toISOString(),leida:false},
+        {id:2,nombre:'Carla Domínguez',tel:'11 6234-1177',email:'carla.dom@mail.com',autoId:null,texto:'Hola, busco un auto automático hasta 15.000 dólares. ¿Qué tienen?',fecha:new Date(Date.now()-3600e3*29).toISOString(),leida:false},
+        {id:3,nombre:'Jorge Ithurbide',tel:'11 4477-2030',email:'',autoId:944,texto:'¿El Bora tiene la VTV al día? ¿Se puede ver el sábado?',fecha:new Date(Date.now()-3600e3*76).toISOString(),leida:true},
+      ],
+      visitas:(()=>{ // 14 días de ejemplo
+        const out=[]; for(let i=13;i>=0;i--){
+          const d=new Date(); d.setDate(d.getDate()-i);
+          out.push({fecha:d.toISOString().slice(0,10),n: 18+Math.round(Math.sin(i*1.1)*9)+Math.round(Math.random()*14)});
+        } return out;
+      })(),
+      vistas:{1000:184,959:97,1052:73,944:41},
+      ajustes:{
+        telefono:'4586-2424', email:'contacto@saulslutzky-autos.com.ar',
+        direccion:'Av. Gaona 1701, CABA',
+        horarios:'Lunes a viernes de 9:00 a 18:30 · Sábados de 9:00 a 13:00',
+        avisoHome:''
+      }
+    };
+  },
+  load(){
+    if(this.cache) return this.cache;
+    try{
+      const raw = localStorage.getItem(this.key);
+      this.cache = raw ? JSON.parse(raw) : this.seed();
+    }catch(e){ this.cache = this.seed(); }
+    return this.cache;
+  },
+  save(){ try{ localStorage.setItem(this.key, JSON.stringify(this.cache)); }catch(e){ toast('No se pudo guardar'); } },
+  reset(){ localStorage.removeItem(this.key); this.cache=null; }
+};
+
+const db = {
+  async autos(){ return store.load().autos; },
+  async guardarAuto(a){
+    const d = store.load();
+    if(a.id && d.autos.some(x=>x.id===a.id)){
+      d.autos = d.autos.map(x => x.id===a.id ? {...x,...a} : x);
+    } else {
+      a.id = a.id || (Math.max(0,...d.autos.map(x=>x.id))+1);
+      d.autos.unshift(a);
+    }
+    store.save(); return a;
+  },
+  async borrarAuto(id){
+    const d = store.load();
+    d.autos = d.autos.filter(x=>x.id!==id);
+    store.save();
+  },
+  async consultas(){ return store.load().consultas; },
+  async marcarLeida(id,val){
+    const d=store.load();
+    const m=d.consultas.find(x=>x.id===id); if(m) m.leida=val;
+    store.save();
+  },
+  async borrarConsulta(id){
+    const d=store.load(); d.consultas=d.consultas.filter(x=>x.id!==id); store.save();
+  },
+  async visitas(){ return store.load().visitas; },
+  async vistas(){ return store.load().vistas; },
+  async ajustes(){ return store.load().ajustes; },
+  async guardarAjustes(o){ const d=store.load(); d.ajustes={...d.ajustes,...o}; store.save(); }
+};
+
+/* ═══════════════ ACCESO ═══════════════ */
+$('#loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err=$('#lgError');
+  if(MODO_DEMO){
+    if(!$('#lgEmail').value.trim()){ err.textContent='Ingresá un email.'; err.style.display='block'; return; }
+    entrar($('#lgEmail').value.trim());
+  } else {
+    err.textContent='Falta conectar Supabase para validar el acceso.';
+    err.style.display='block';
+  }
+});
+function entrar(email){
+  sessionStorage.setItem('slutzky_admin_sess', email);
+  $('#loginScreen').style.display='none';
+  $('#shell').classList.add('on');
+  $('#sideRole').textContent = MODO_DEMO ? 'Modo demostración' : email;
+  ir('resumen');
+}
+$('#btnLogout').addEventListener('click', ()=>{
+  sessionStorage.removeItem('slutzky_admin_sess');
+  location.reload();
+});
+if(sessionStorage.getItem('slutzky_admin_sess')) entrar(sessionStorage.getItem('slutzky_admin_sess'));
+
+/* ═══════════════ NAVEGACIÓN ═══════════════ */
+document.querySelectorAll('.side nav button').forEach(b=>{
+  b.addEventListener('click',()=>{ ir(b.dataset.view); cerrarSide(); });
+});
+function ir(v){
+  document.querySelectorAll('.side nav button').forEach(b=>b.classList.toggle('on', b.dataset.view===v));
+  ({resumen:vistaResumen, autos:vistaAutos, consultas:vistaConsultas, ajustes:vistaAjustes})[v]();
+  $('#main').scrollTop=0; window.scrollTo(0,0);
+}
+$('#btnSide').addEventListener('click',()=>{ $('#side').classList.add('open'); $('#sideBackdrop').classList.add('on'); });
+$('#sideBackdrop').addEventListener('click', cerrarSide);
+function cerrarSide(){ $('#side').classList.remove('open'); $('#sideBackdrop').classList.remove('on'); }
+
+document.querySelectorAll('[data-close]').forEach(b=>{
+  b.addEventListener('click',()=>$('#'+b.dataset.close).classList.remove('on'));
+});
+document.querySelectorAll('.ov').forEach(o=>{
+  o.addEventListener('click', e=>{ if(e.target===o) o.classList.remove('on'); });
+});
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on'));
+});
+
+/* ═══════════════ RESUMEN ═══════════════ */
+async function vistaResumen(){
+  const [autos, visitas, vistas, msgs] = await Promise.all([db.autos(),db.visitas(),db.vistas(),db.consultas()]);
+  const hoy = visitas[visitas.length-1]?.n || 0;
+  const ayer = visitas[visitas.length-2]?.n || 0;
+  const sem = visitas.slice(-7).reduce((s,v)=>s+v.n,0);
+  const semPrev = visitas.slice(-14,-7).reduce((s,v)=>s+v.n,0);
+  const disp = autos.filter(a=>a.estado==='disponible').length;
+  const sinFoto = autos.filter(a=>!a.fotos||!a.fotos.length).length;
+  const noLeidas = msgs.filter(m=>!m.leida).length;
+
+  const delta=(a,b)=>{
+    if(!b) return `<span class="delta flat">sin comparación</span>`;
+    const p=Math.round((a-b)/b*100);
+    const cls = p>0?'up':p<0?'down':'flat';
+    const ar = p>0?'↑':p<0?'↓':'→';
+    return `<span class="delta ${cls}">${ar} ${Math.abs(p)}% vs. período anterior</span>`;
+  };
+
+  const rank = Object.entries(vistas).map(([id,n])=>{
+    const a = autos.find(x=>x.id===+id);
+    return {nom: a? `${a.marca} ${a.modelo}` : `Unidad ${id}`, n:+n};
+  }).sort((a,b)=>b.n-a.n).slice(0,6);
+  const maxR = Math.max(1,...rank.map(r=>r.n));
+
+  $('#main').innerHTML = `
+    <div class="page-head">
+      <div>
+        <h2>Resumen</h2>
+        <p>Cómo viene funcionando el sitio${MODO_DEMO?' · datos de ejemplo':''}</p>
+      </div>
+      <button class="btn btn-primary" id="qAdd">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+        Publicar auto
+      </button>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="lbl">Visitas hoy</div><div class="val">${nf(hoy)}</div>${delta(hoy,ayer)}</div>
+      <div class="kpi"><div class="lbl">Visitas 7 días</div><div class="val">${nf(sem)}</div>${delta(sem,semPrev)}</div>
+      <div class="kpi"><div class="lbl">Autos publicados</div><div class="val">${disp}</div>
+        <span class="delta ${sinFoto?'down':'flat'}">${sinFoto? sinFoto+' sin fotos' : 'todos con fotos'}</span></div>
+      <div class="kpi"><div class="lbl">Consultas sin leer</div><div class="val">${noLeidas}</div>
+        <span class="delta ${noLeidas?'up':'flat'}">${msgs.length} en total</span></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><h3>Visitas de los últimos 14 días</h3><span class="note">pasá el mouse por las barras</span></div>
+        <div id="chartBox"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Autos más vistos</h3></div>
+        <div class="rank">
+          ${rank.length? rank.map((r,i)=>`
+            <div class="rank-row">
+              <span class="pos">${i+1}</span>
+              <div style="flex:1;min-width:0;">
+                <div class="nm">${esc(r.nom)}</div>
+                <div class="rank-bar" style="width:${Math.max(6,r.n/maxR*100)}%"></div>
+              </div>
+              <span class="qt">${nf(r.n)}</span>
+            </div>`).join('') : '<p style="color:var(--taupe);font-size:13px;">Todavía no hay vistas registradas.</p>'}
+        </div>
+      </div>
+    </div>
+
+    ${sinFoto? `<div class="card" style="border-color:rgba(201,144,60,.4);background:rgba(201,144,60,.07);">
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e0b06a" stroke-width="1.9" style="flex:none;margin-top:2px;"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+        <div>
+          <div style="font-weight:600;margin-bottom:3px;">Hay ${sinFoto} ${sinFoto===1?'auto':'autos'} sin fotos</div>
+          <div style="font-size:13px;color:var(--cream-dim);">Las publicaciones con fotos reciben muchas más consultas. Cargalas desde la sección Autos.</div>
+        </div>
+      </div>
+    </div>`:''}
+  `;
+  $('#chartBox').appendChild(grafico(visitas));
+  $('#qAdd').addEventListener('click',()=>abrirAuto(null));
+  refrescarBadges();
+}
+
+function grafico(data){
+  const W=560,H=190,pad={l:30,r:8,t:12,b:24};
+  const max = Math.max(10,...data.map(d=>d.n));
+  const iw = W-pad.l-pad.r, ih = H-pad.t-pad.b;
+  const bw = iw/data.length;
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.setAttribute('class','chart');
+  svg.setAttribute('preserveAspectRatio','none');
+  let h='';
+  [0,.5,1].forEach(f=>{
+    const y = pad.t + ih*(1-f);
+    h += `<line class="grid-line" x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}"/>
+          <text x="${pad.l-6}" y="${y+3}" text-anchor="end">${Math.round(max*f)}</text>`;
+  });
+  data.forEach((d,i)=>{
+    const bh = Math.max(2, d.n/max*ih);
+    const x = pad.l + i*bw + bw*0.18;
+    const y = pad.t + ih - bh;
+    const last = i===data.length-1;
+    h += `<rect class="bar ${last?'today':''}" x="${x}" y="${y}" width="${bw*0.64}" height="${bh}" rx="2">
+            <title>${d.fecha}: ${d.n} visitas</title></rect>`;
+    if(i%3===0 || last){
+      const [,,dd]=d.fecha.split('-');
+      h += `<text x="${x+bw*0.32}" y="${H-7}" text-anchor="middle">${dd}</text>`;
+    }
+  });
+  svg.innerHTML=h;
+  return svg;
+}
+
+/* ═══════════════ AUTOS ═══════════════ */
+let filtroAutos='';
+async function vistaAutos(){
+  const autos = await db.autos();
+  const q = filtroAutos.toLowerCase();
+  const list = autos.filter(a => !q || `${a.marca} ${a.modelo} ${a.anio} ${a.color}`.toLowerCase().includes(q));
+
+  $('#main').innerHTML = `
+    <div class="page-head">
+      <div><h2>Autos</h2><p>${autos.length} ${autos.length===1?'unidad cargada':'unidades cargadas'}</p></div>
+      <button class="btn btn-primary" id="btnNuevo">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+        Publicar auto
+      </button>
+    </div>
+    <div class="tools">
+      <input type="search" id="qAutos" placeholder="Buscar marca, modelo, año…" value="${esc(filtroAutos)}">
+    </div>
+    ${list.length? `<div class="card" style="padding:6px 8px;"><div class="scroll-x"><table>
+      <thead><tr>
+        <th style="width:78px;">Foto</th><th>Unidad</th><th>Año</th><th>Km</th>
+        <th>Precio</th><th>Estado</th><th>Vistas</th><th style="text-align:right;">Acciones</th>
+      </tr></thead>
+      <tbody>${list.map(a=>filaAuto(a)).join('')}</tbody>
+    </table></div></div>`
+    : `<div class="empty"><h4>${filtroAutos?'Sin resultados':'Todavía no hay autos'}</h4>
+       <p>${filtroAutos?'Probá con otra búsqueda.':'Publicá el primero para que aparezca en el sitio.'}</p></div>`}
+  `;
+  $('#btnNuevo').addEventListener('click',()=>abrirAuto(null));
+  const qi=$('#qAutos');
+  qi.addEventListener('input',()=>{ filtroAutos=qi.value; const p=qi.selectionStart; vistaAutos().then(()=>{ const n=$('#qAutos'); n.focus(); n.setSelectionRange(p,p); }); });
+  document.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>abrirAuto(+b.dataset.edit)));
+  document.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>pedirBorrado(+b.dataset.del)));
+  refrescarBadges();
+}
+function filaAuto(a){
+  const vistas = store.load().vistas[a.id]||0;
+  const foto = a.fotos&&a.fotos.length ? `<img class="thumb" src="${esc(a.fotos[0])}" alt="" onerror="this.outerHTML='<div class=\\'thumb-empty\\'>—</div>'">`
+    : `<div class="thumb-empty"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>`;
+  return `<tr>
+    <td>${foto}</td>
+    <td><div class="cell-title">${esc(a.marca)} ${esc(a.modelo)}</div>
+        <div class="cell-sub">${esc(a.segmento||'')}${a.primerDueno?' · Primer dueño':''}</div></td>
+    <td class="mono">${a.anio||'—'}</td>
+    <td class="mono">${a.km!=null?nf(a.km):'—'}</td>
+    <td class="mono" style="color:var(--gold-light);">${precioTxt(a)}</td>
+    <td><span class="pill ${a.estado||'disponible'}">${(a.estado||'disponible')}</span></td>
+    <td class="mono">${nf(vistas)}</td>
+    <td><div class="row-actions">
+      <button class="icon-btn" data-edit="${a.id}" title="Editar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></button>
+      <button class="icon-btn danger" data-del="${a.id}" title="Borrar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button>
+    </div></td>
+  </tr>`;
+}
+
+/* ---------- alta / edición ---------- */
+let autoEditando=null, fotosTmp=[];
+async function abrirAuto(id){
+  const autos = await db.autos();
+  const a = id ? autos.find(x=>x.id===id) : null;
+  autoEditando = a ? {...a} : {estado:'disponible',moneda:'USD',primerDueno:false,fotos:[]};
+  fotosTmp = [...(autoEditando.fotos||[])];
+  $('#autoSheetTitle').textContent = a ? `Editar unidad ${a.id}` : 'Publicar auto';
+
+  $('#autoForm').innerHTML = `
+    <div class="field"><label>Marca</label><input id="fa_marca" value="${esc(autoEditando.marca||'')}" placeholder="Chevrolet"></div>
+    <div class="field"><label>Modelo</label><input id="fa_modelo" value="${esc(autoEditando.modelo||'')}" placeholder="Cruze II LTZ"></div>
+    <div class="field"><label>Año</label><input id="fa_anio" type="number" value="${autoEditando.anio||''}" placeholder="2018"></div>
+    <div class="field"><label>Kilómetros</label><input id="fa_km" type="number" value="${autoEditando.km??''}" placeholder="53500"></div>
+    <div class="field"><label>Precio</label><input id="fa_precio" type="number" value="${autoEditando.precio??''}" placeholder="Vacío = Consultar"></div>
+    <div class="field"><label>Moneda</label><select id="fa_moneda">
+      <option value="USD"${autoEditando.moneda==='USD'?' selected':''}>Dólares (U$S)</option>
+      <option value="ARS"${autoEditando.moneda==='ARS'?' selected':''}>Pesos ($)</option>
+    </select></div>
+    <div class="field"><label>Color</label><input id="fa_color" value="${esc(autoEditando.color||'')}" placeholder="Blanco perlado"></div>
+    <div class="field"><label>Carrocería</label><input id="fa_segmento" value="${esc(autoEditando.segmento||'')}" placeholder="Sedán 5 puertas"></div>
+    <div class="field"><label>Combustible</label><select id="fa_comb">
+      ${['Nafta','Diésel','GNC','Híbrido','Eléctrico'].map(c=>`<option${autoEditando.combustible===c?' selected':''}>${c}</option>`).join('')}
+    </select></div>
+    <div class="field"><label>Estado</label><select id="fa_estado">
+      <option value="disponible"${autoEditando.estado==='disponible'?' selected':''}>Disponible</option>
+      <option value="reservado"${autoEditando.estado==='reservado'?' selected':''}>Reservado</option>
+      <option value="vendido"${autoEditando.estado==='vendido'?' selected':''}>Vendido</option>
+    </select><p class="hint">Los vendidos dejan de mostrarse en el sitio.</p></div>
+    <div class="field full" style="display:flex;gap:22px;flex-wrap:wrap;">
+      <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:13.5px;color:var(--cream);cursor:pointer;">
+        <input type="checkbox" id="fa_primer" ${autoEditando.primerDueno?'checked':''} style="width:auto;"> Primer y único dueño</label>
+      <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:13.5px;color:var(--cream);cursor:pointer;">
+        <input type="checkbox" id="fa_dest" ${autoEditando.destacado?'checked':''} style="width:auto;"> Destacar en el catálogo</label>
+    </div>
+    <div class="field full"><label>Descripción</label>
+      <textarea id="fa_detalles" placeholder="Equipamiento, estado, documentación…">${esc(autoEditando.detalles||'')}</textarea></div>
+    <div class="field full"><label>Fotos</label>
+      <div class="drop" id="drop">
+        Arrastrá las fotos acá o hacé clic para elegirlas
+        <input type="file" id="fileIn" accept="image/*" multiple hidden>
+      </div>
+      <p class="hint">La primera foto es la que se ve en el catálogo. Arrastrá para reordenar no está disponible: borrá y volvé a subir para cambiar el orden.</p>
+      <div class="photos" id="photos"></div>
+    </div>
+  `;
+  pintarFotos();
+  const drop=$('#drop'), fi=$('#fileIn');
+  drop.addEventListener('click',()=>fi.click());
+  drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over');});
+  drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
+  drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('over');cargarFotos(e.dataTransfer.files);});
+  fi.addEventListener('change',()=>cargarFotos(fi.files));
+  $('#ovAuto').classList.add('on');
+}
+function cargarFotos(files){
+  [...files].slice(0,12).forEach(f=>{
+    if(!f.type.startsWith('image/')) return;
+    const r=new FileReader();
+    r.onload=()=>{ fotosTmp.push(r.result); pintarFotos(); };
+    r.readAsDataURL(f);
+  });
+}
+function pintarFotos(){
+  const box=$('#photos'); if(!box) return;
+  box.innerHTML = fotosTmp.map((f,i)=>`
+    <div class="photo">
+      <img src="${esc(f)}" alt="">
+      ${i===0?'<span class="first">PORTADA</span>':''}
+      <button data-rm="${i}" aria-label="Quitar">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>`).join('');
+  box.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click',()=>{
+    fotosTmp.splice(+b.dataset.rm,1); pintarFotos();
+  }));
+}
+$('#btnSaveAuto').addEventListener('click', async ()=>{
+  const v=id=>$('#'+id)?.value.trim();
+  if(!v('fa_marca')||!v('fa_modelo')){ toast('Falta la marca o el modelo'); return; }
+  const a={
+    ...autoEditando,
+    marca:v('fa_marca'), modelo:v('fa_modelo'),
+    anio:+v('fa_anio')||null, km:v('fa_km')===''?null:+v('fa_km'),
+    precio:v('fa_precio')===''?null:+v('fa_precio'), moneda:v('fa_moneda'),
+    color:v('fa_color'), segmento:v('fa_segmento'), combustible:v('fa_comb'),
+    estado:v('fa_estado'), primerDueno:$('#fa_primer').checked, destacado:$('#fa_dest').checked,
+    detalles:$('#fa_detalles').value.trim(), fotos:[...fotosTmp]
+  };
+  await db.guardarAuto(a);
+  $('#ovAuto').classList.remove('on');
+  toast(autoEditando.id?'Auto actualizado':'Auto publicado');
+  vistaAutos();
+});
+
+let borrarId=null;
+function pedirBorrado(id){
+  const a = store.load().autos.find(x=>x.id===id);
+  borrarId=id;
+  $('#confirmTitle').textContent='Borrar auto';
+  $('#confirmText').innerHTML = `Se va a borrar <b>${esc(a.marca)} ${esc(a.modelo)}</b> y dejará de aparecer en el sitio. Esta acción no se puede deshacer.`;
+  $('#ovConfirm').classList.add('on');
+}
+$('#btnConfirmYes').addEventListener('click', async ()=>{
+  if(borrarId==null) return;
+  await db.borrarAuto(borrarId);
+  borrarId=null;
+  $('#ovConfirm').classList.remove('on');
+  toast('Auto borrado');
+  vistaAutos();
+});
+
+/* ═══════════════ CONSULTAS ═══════════════ */
+async function vistaConsultas(){
+  const [msgs,autos] = await Promise.all([db.consultas(),db.autos()]);
+  const orden = [...msgs].sort((a,b)=> new Date(b.fecha)-new Date(a.fecha));
+  $('#main').innerHTML = `
+    <div class="page-head">
+      <div><h2>Consultas</h2><p>${msgs.filter(m=>!m.leida).length} sin leer de ${msgs.length}</p></div>
+    </div>
+    ${orden.length? orden.map(m=>{
+      const a = m.autoId? autos.find(x=>x.id===m.autoId) : null;
+      const tel = (m.tel||'').replace(/[^\d]/g,'');
+      return `<div class="msg ${m.leida?'':'unread'}">
+        <div class="msg-top">
+          <div>
+            <div class="who">${esc(m.nombre)}</div>
+            <div class="when">${fechaRel(m.fecha)}</div>
+          </div>
+          <div class="when mono">${esc(m.tel||'')}${m.email?' · '+esc(m.email):''}</div>
+        </div>
+        ${a?`<div class="about">Consulta por: ${esc(a.marca)} ${esc(a.modelo)}</div>`:''}
+        <div class="body">${esc(m.texto)}</div>
+        <div class="msg-foot">
+          ${tel?`<a class="btn btn-ghost btn-sm" href="tel:${tel}">Llamar</a>`:''}
+          ${m.email?`<a class="btn btn-ghost btn-sm" href="mailto:${esc(m.email)}">Responder por mail</a>`:''}
+          <button class="btn btn-ghost btn-sm" data-leida="${m.id}" data-val="${m.leida?0:1}">
+            ${m.leida?'Marcar sin leer':'Marcar como leída'}</button>
+          <button class="btn btn-danger btn-sm" data-delmsg="${m.id}">Borrar</button>
+        </div>
+      </div>`;
+    }).join('') : `<div class="empty"><h4>No hay consultas todavía</h4><p>Las que lleguen desde el formulario del sitio aparecen acá.</p></div>`}
+  `;
+  document.querySelectorAll('[data-leida]').forEach(b=>b.addEventListener('click',async()=>{
+    await db.marcarLeida(+b.dataset.leida, b.dataset.val==='1'); vistaConsultas();
+  }));
+  document.querySelectorAll('[data-delmsg]').forEach(b=>b.addEventListener('click',async()=>{
+    await db.borrarConsulta(+b.dataset.delmsg); toast('Consulta borrada'); vistaConsultas();
+  }));
+  refrescarBadges();
+}
+function fechaRel(iso){
+  const d=new Date(iso), min=(Date.now()-d)/60000;
+  if(min<60) return `hace ${Math.max(1,Math.round(min))} min`;
+  if(min<1440) return `hace ${Math.round(min/60)} h`;
+  if(min<2880) return 'ayer';
+  return d.toLocaleDateString('es-AR',{day:'numeric',month:'long'});
+}
+
+/* ═══════════════ AJUSTES ═══════════════ */
+async function vistaAjustes(){
+  const s = await db.ajustes();
+  $('#main').innerHTML = `
+    <div class="page-head"><div><h2>Ajustes</h2><p>Datos que se muestran en el sitio</p></div></div>
+    <div class="card" style="max-width:640px;">
+      <div class="field"><label>Teléfono</label><input id="s_tel" value="${esc(s.telefono)}"></div>
+      <div class="field"><label>Email de contacto</label><input id="s_mail" value="${esc(s.email)}"></div>
+      <div class="field"><label>Dirección</label><input id="s_dir" value="${esc(s.direccion)}"></div>
+      <div class="field"><label>Horarios de atención</label><input id="s_hor" value="${esc(s.horarios)}">
+        <p class="hint">Aparece en la sección de contacto. Verificá que coincida con lo que figura en Google.</p></div>
+      <div class="field"><label>Aviso en la portada</label><textarea id="s_aviso" placeholder="Ej: Cerrado por vacaciones del 1 al 15 de enero">${esc(s.avisoHome||'')}</textarea>
+        <p class="hint">Si lo dejás vacío no se muestra nada.</p></div>
+      <button class="btn btn-primary" id="btnSaveAj">Guardar cambios</button>
+    </div>
+
+    <div class="card" style="max-width:640px;margin-top:16px;border-color:rgba(163,80,90,.35);">
+      <div class="card-head"><h3>Restablecer demostración</h3></div>
+      <p style="font-size:13px;color:var(--cream-dim);margin-bottom:14px;">
+        Borra todo lo cargado en este navegador y vuelve a los datos de ejemplo.
+        No afecta al sitio publicado.</p>
+      <button class="btn btn-danger" id="btnReset">Restablecer datos</button>
+    </div>
+  `;
+  $('#btnSaveAj').addEventListener('click', async ()=>{
+    await db.guardarAjustes({
+      telefono:$('#s_tel').value.trim(), email:$('#s_mail').value.trim(),
+      direccion:$('#s_dir').value.trim(), horarios:$('#s_hor').value.trim(),
+      avisoHome:$('#s_aviso').value.trim()
+    });
+    toast('Ajustes guardados');
+  });
+  $('#btnReset').addEventListener('click',()=>{
+    borrarId=null;
+    $('#confirmTitle').textContent='Restablecer datos';
+    $('#confirmText').textContent='Se borra todo lo cargado en este navegador y vuelven los datos de ejemplo.';
+    $('#btnConfirmYes').textContent='Sí, restablecer';
+    $('#ovConfirm').classList.add('on');
+    $('#btnConfirmYes').onclick=()=>{
+      store.reset(); $('#ovConfirm').classList.remove('on');
+      $('#btnConfirmYes').textContent='Sí, borrar';
+      $('#btnConfirmYes').onclick=null;
+      toast('Datos restablecidos'); ir('resumen');
+    };
+  });
+}
+
+/* ═══════════════ VARIOS ═══════════════ */
+function refrescarBadges(){
+  const d=store.load();
+  $('#badgeAutos').textContent = d.autos.length;
+  const n = d.consultas.filter(m=>!m.leida).length;
+  const b = $('#badgeMsgs');
+  b.textContent = n; b.style.display = n? 'grid':'none';
+}
+</script>
+</body>
+</html>
