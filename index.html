@@ -97,10 +97,52 @@
     .premium-seal{animation:none;}
   }
 
+  /* ---------- HERO FACHADA ---------- */
+  .hero-shot{
+    position:relative;width:100%;
+    height:clamp(420px, 72vh, 720px);
+    overflow:hidden;background:var(--ink);
+    display:flex;align-items:flex-end;justify-content:center;
+  }
+  .hero-shot picture, .hero-shot img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    object-position:60% 42%;
+  }
+  .hero-shot::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(to top, var(--ink) 2%, rgba(23,15,14,.86) 26%, rgba(23,15,14,.34) 58%, rgba(23,15,14,.55) 100%),
+      radial-gradient(ellipse 70% 55% at 50% 78%, rgba(201,162,76,.16), transparent 70%);
+  }
+  .hero-shot-inner{
+    position:relative;z-index:2;text-align:center;
+    padding:0 26px 54px;max-width:900px;
+  }
+  .hero-shot-mark{
+    width:min(440px, 78vw);height:auto;margin:0 auto 18px;
+    filter:drop-shadow(0 6px 22px rgba(0,0,0,.75));
+  }
+  .hero-shot-inner .addr{
+    font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--cream-dim);margin-bottom:16px;
+    text-shadow:0 2px 10px rgba(0,0,0,.9);
+  }
+  .hero-shot-inner .addr span{color:var(--gold);}
+  .hero-shot-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .scroll-cue{
+    position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:3;
+    color:var(--gold-light);opacity:.75;animation:cueBob 2s ease-in-out infinite;
+  }
+  @keyframes cueBob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);}}
+  @media (prefers-reduced-motion:reduce){.scroll-cue{animation:none;}}
+  @media (max-width:900px){
+    .hero-shot{height:clamp(440px, 78vh, 640px);}
+    .hero-shot picture, .hero-shot img{object-position:50% 45%;}
+    .hero-shot-inner{padding:0 20px 46px;}
+    .hero-shot-actions .btn{width:100%;justify-content:center;}
+  }
+
   /* ---------- TOP BANNER ---------- */
-  .top-banner{width:100%;padding:24px 28px;background:var(--ink);}
-  .top-banner-inner{max-width:1180px;margin:0 auto;border-radius:18px;overflow:hidden;border:1px solid var(--line-strong);line-height:0;}
-  .top-banner img{width:100%;height:auto;display:block;}
 
   /* ---------- NAV ---------- */
   header.nav{
@@ -135,7 +177,7 @@
 
   /* ---------- HERO ---------- */
   .hero{
-    position:relative;padding:0 0 68px;
+    position:relative;padding:56px 0 68px;
     background:
       radial-gradient(ellipse 900px 520px at 85% 100%, rgba(110,31,43,.1), transparent 60%);
   }
@@ -152,12 +194,6 @@
   .hero-panel::before{
     content:"";position:absolute;inset:9px;border:1px solid rgba(244,233,216,.07);border-radius:16px;pointer-events:none;
   }
-  .locale-row{
-    display:flex;justify-content:center;gap:10px;align-items:center;
-    font-family:var(--font-ui);font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--taupe);
-    text-transform:uppercase;margin-bottom:26px;
-  }
-  .locale-row .sep{color:var(--gold);}
   .status-pill{
     display:inline-flex;align-items:center;gap:8px;
     font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
@@ -699,8 +735,7 @@
     .contact-grid{grid-template-columns:1fr;gap:36px;}
     .modal-specs{grid-template-columns:repeat(2,1fr);}
     section{padding:64px 0;}
-    .top-banner{padding:16px 18px;}
-    .wrap{padding:0 20px;}
+      .wrap{padding:0 20px;}
 
     /* funciones nuevas */
     .grid{grid-template-columns:1fr;}
@@ -726,7 +761,7 @@
   }
   @media (max-width:900px){
     .grid{grid-template-columns:1fr;}
-    .hero{padding:0 0 48px;}
+    .hero{padding:40px 0 48px;}
     .hero-panel{padding:32px 20px 28px;}
     .hero h1{font-size:clamp(26px,7vw,34px);}
     .hero p.lede{font-size:16px;}
@@ -837,11 +872,26 @@
   </div>
 </header>
 
-<div class="top-banner">
-  <div class="top-banner-inner">
-    <img src="assets/banner-saul-slutzky.jpg" alt="Saúl Slutzky — Autos, Seguros, Gestoría">
+<section class="hero-shot">
+  <picture>
+    <source media="(max-width:900px)" srcset="assets/local-mobile.jpg">
+    <img src="assets/local-desktop.jpg" alt="Frente del salón de ventas de Saúl Slutzky en Av. Gaona 1701, CABA" fetchpriority="high">
+  </picture>
+  <div class="hero-shot-inner">
+    <img class="hero-shot-mark" src="assets/wordmark-saul-slutzky.png" alt="Saúl Slutzky — Autos y Seguros">
+    <p class="addr">Av. Gaona 1701, CABA <span>·</span> Desde 1970</p>
+    <div class="hero-shot-actions">
+      <a href="#catalogo" class="btn btn-primary">
+        Ver catálogo
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#contacto" class="btn btn-ghost">Hablar con un asesor</a>
+    </div>
   </div>
-</div>
+  <span class="scroll-cue">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+  </span>
+</section>
 
 <section class="hero" id="inicio">
   <div class="wrap hero-grid">
@@ -853,11 +903,6 @@
           <em>Confianza</em>
         </span>
       </span>
-      <div class="locale-row">
-        <span>Av. Gaona 1701, CABA</span>
-        <span class="sep">·</span>
-        <span>Desde 1970</span>
-      </div>
       <span class="status-pill"><span class="dot"></span>En cartelera · 14 unidades</span>
       <p class="script-kicker">Con la clase de siempre</p>
       <svg class="flourish" viewBox="0 0 220 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -868,13 +913,6 @@
       </svg>
       <h1>Autos con la <em>documentación en regla</em> y 40 años que lo avalan.</h1>
       <p class="lede">Compra y venta de autos nacionales e importados, 0KM y usados. Asesoramos, financiamos y hacemos la gestoría — sin sorpresas ni honorarios ocultos en la transferencia.</p>
-      <div class="hero-actions">
-        <a href="#catalogo" class="btn btn-primary">
-          Ver catálogo
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a href="#contacto" class="btn btn-ghost">Hablar con un asesor</a>
-      </div>
       <div class="panel-foot">
         <div class="stat"><b data-count="40">0</b><span>Años en el rubro</span></div>
         <div class="stat"><b id="stockCount" data-count="14">0</b><span>Unidades en stock</span></div>
