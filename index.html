@@ -321,6 +321,47 @@
     background-repeat:no-repeat;
     background-position:right 12px center;
   }
+  /* ---------- DESPLEGABLE PROPIO ---------- */
+  .cselect{position:relative;flex:0 0 auto;}
+  .cselect > select{
+    position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;
+  }
+  .cselect-btn{
+    display:inline-flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--ink-2);border:1px solid var(--line-strong);color:var(--cream);
+    font-family:var(--font-ui);font-size:13px;padding:11px 12px 11px 14px;
+    border-radius:var(--radius-sm);width:100%;text-align:left;
+    transition:border-color .2s, background .2s;
+  }
+  .cselect-btn:hover{background:var(--surface);border-color:var(--gold-deep);}
+  .cselect.open .cselect-btn{border-color:var(--gold);background:var(--surface);}
+  .cselect-btn svg{flex:none;color:var(--taupe);transition:transform .2s, color .2s;}
+  .cselect.open .cselect-btn svg{transform:rotate(180deg);color:var(--gold-light);}
+  .cselect-btn .lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cselect-list{
+    position:absolute;top:calc(100% + 6px);left:0;min-width:100%;width:max-content;max-width:290px;
+    background:var(--surface);border:1px solid var(--gold-deep);border-radius:12px;
+    padding:6px;z-index:70;display:none;
+    box-shadow:0 22px 44px -18px rgba(0,0,0,.85);
+    max-height:280px;overflow-y:auto;scrollbar-width:thin;
+  }
+  .cselect.open .cselect-list{display:block;}
+  .cselect-list button{
+    display:block;width:100%;text-align:left;background:none;border:none;
+    font-family:var(--font-ui);font-size:13px;color:var(--cream-dim);
+    padding:10px 12px;border-radius:8px;white-space:nowrap;
+    transition:background .15s, color .15s;
+  }
+  .cselect-list button:hover{background:rgba(201,162,76,.14);color:var(--cream);}
+  .cselect-list button[aria-selected="true"]{
+    background:rgba(201,162,76,.2);color:var(--gold-light);font-weight:600;
+  }
+
+  .cselect[data-for="fMarca"]{width:132px;}
+  .cselect[data-for="fCombustible"]{width:158px;}
+  .cselect[data-for="fPrecio"]{width:130px;}
+  .cselect[data-for="fOrden"]{width:168px;}
+
   .filters select:hover{background-color:var(--surface);}
   .filters select option{
     background-color:var(--ink-2);color:var(--cream);
@@ -779,7 +820,7 @@
     .filters-row2{gap:10px;}
     .search-wrap{flex:1 1 100%;}
     .filters select{min-width:0;flex:1 1 45%;width:auto;}
-    #fMarca,#fCombustible,#fPrecio,#fOrden{width:auto;flex:1 1 45%;}
+    .cselect,.cselect[data-for]{flex:1 1 45%;width:auto;}
     .filters .count{margin-left:0;width:100%;text-align:center;}
     .cmp-bar{gap:10px;padding:10px 12px 10px 16px;bottom:14px;left:16px;right:16px;transform:translateY(140%);max-width:none;justify-content:space-between;}
     .cmp-bar.show{transform:translateY(0);}
@@ -813,7 +854,7 @@
     .panel-foot .stat b{font-size:21px;}
     .filters{padding:14px;}
     .filters select{min-width:0;flex:1 1 45%;width:auto;}
-    #fMarca,#fCombustible,#fPrecio,#fOrden{width:auto;flex:1 1 45%;}
+    .cselect,.cselect[data-for]{flex:1 1 45%;width:auto;}
     .filters .count{margin-left:0;width:100%;text-align:center;}
     .section-head{margin-bottom:28px;}
     .seg-lead p{font-size:18px;}
@@ -1694,6 +1735,94 @@ function openCompare(){
 document.getElementById('cmpOpen').addEventListener('click', openCompare);
 updateCmpBar();
 
+/* ---------- DESPLEGABLE PROPIO ----------
+   Envuelve cada <select> con una interfaz propia. El <select> original
+   queda oculto y sigue siendo la fuente de verdad, así toda la lógica de
+   filtros existente sigue funcionando igual. */
+function enhanceSelect(sel){
+  const wrap = document.createElement('div');
+  wrap.className = 'cselect';
+  wrap.dataset.for = sel.id;
+  sel.parentNode.insertBefore(wrap, sel);
+  wrap.appendChild(sel);
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'cselect-btn';
+  btn.setAttribute('aria-haspopup','listbox');
+  btn.setAttribute('aria-expanded','false');
+  btn.innerHTML = `<span class="lbl"></span>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
+
+  const list = document.createElement('div');
+  list.className = 'cselect-list';
+  list.setAttribute('role','listbox');
+
+  function syncLabel(){
+    const o = sel.options[sel.selectedIndex];
+    btn.querySelector('.lbl').textContent = o ? o.textContent : '';
+    list.querySelectorAll('button').forEach(b =>
+      b.setAttribute('aria-selected', b.dataset.value === sel.value ? 'true' : 'false'));
+  }
+
+  function buildOptions(){
+    list.innerHTML = '';
+    [...sel.options].forEach(o => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.value = o.value;
+      b.textContent = o.textContent;
+      b.setAttribute('role','option');
+      b.addEventListener('click', () => {
+        sel.value = o.value;
+        sel.dispatchEvent(new Event('change', {bubbles:true}));
+        syncLabel();
+        close();
+      });
+      list.appendChild(b);
+    });
+    syncLabel();
+  }
+
+  function open(){
+    document.querySelectorAll('.cselect.open').forEach(w => {
+      if(w !== wrap){ w.classList.remove('open'); w.querySelector('.cselect-btn').setAttribute('aria-expanded','false'); }
+    });
+    wrap.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+  }
+  function close(){
+    wrap.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    wrap.classList.contains('open') ? close() : open();
+  });
+
+  wrap.appendChild(btn);
+  wrap.appendChild(list);
+  buildOptions();
+  sel.addEventListener('change', syncLabel);
+  wrap._rebuild = buildOptions;
+}
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.cselect.open').forEach(w => {
+    w.classList.remove('open');
+    w.querySelector('.cselect-btn').setAttribute('aria-expanded','false');
+  });
+});
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){
+    document.querySelectorAll('.cselect.open').forEach(w => {
+      w.classList.remove('open');
+      w.querySelector('.cselect-btn').setAttribute('aria-expanded','false');
+    });
+  }
+});
+
 /* Indicador de scroll dentro de la ficha */
 const modalScroll = document.querySelector('.modal-scroll');
 const scrollHint = document.getElementById('scrollHint');
@@ -1862,6 +1991,13 @@ const sweepTimer = setInterval(() => {
 }, 350);
 
 populateFilters();
+
+/* Los desplegables propios se construyen recién ahora, cuando los
+   <select> ya tienen todas sus opciones cargadas. */
+['fMarca','fCombustible','fPrecio','fOrden'].forEach(id => {
+  const sel = document.getElementById(id);
+  if(sel) enhanceSelect(sel);
+});
 renderCards(CARS);
 document.getElementById('stockCount').dataset.count = CARS.length;
 observeReveals(document);
