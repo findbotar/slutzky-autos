@@ -38,7 +38,7 @@
     --font-badge:'Bebas Neue', sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;color-scheme:dark;}
   html,body{max-width:100%;}
   body{
     background:var(--ink);
@@ -322,6 +322,13 @@
     background-position:right 12px center;
   }
   .filters select:hover{background-color:var(--surface);}
+  .filters select option{
+    background-color:var(--ink-2);color:var(--cream);
+    font-family:var(--font-ui);padding:8px;
+  }
+  .filters select option:checked{
+    background-color:var(--gold-deep);color:var(--cream);
+  }
   #fMarca{width:132px;}
   #fCombustible{width:158px;}
   #fPrecio{width:130px;}
