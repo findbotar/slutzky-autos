@@ -313,11 +313,23 @@
     font-family:var(--font-ui);font-size:13px;padding:11px 14px;border-radius:var(--radius-sm);
     min-width:150px;
   }
+  .filters select{
+    -webkit-appearance:none;-moz-appearance:none;appearance:none;
+    padding-right:34px;min-width:0;width:auto;
+    text-overflow:ellipsis;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239c8f7c' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+  }
+  .filters select:hover{background-color:var(--surface);}
+  #fMarca{width:132px;}
+  #fCombustible{width:158px;}
+  #fPrecio{width:130px;}
+  #fOrden{flex:0 0 auto;width:168px;}
   .filters select:focus, .filters input:focus{border-color:var(--gold);}
   .filters .count{
     margin-left:auto;align-self:center;font-family:var(--font-serif);font-style:italic;font-size:14px;color:var(--taupe);
   }
-  #fOrden{flex:0 0 auto;width:auto;min-width:170px;}
 
   @media (max-width:900px){
     .filters select, .filters input,
@@ -759,7 +771,8 @@
     .view-toggle{display:none;}
     .filters-row2{gap:10px;}
     .search-wrap{flex:1 1 100%;}
-    .filters select{min-width:0;flex:1 1 45%;}
+    .filters select{min-width:0;flex:1 1 45%;width:auto;}
+    #fMarca,#fCombustible,#fPrecio,#fOrden{width:auto;flex:1 1 45%;}
     .filters .count{margin-left:0;width:100%;text-align:center;}
     .cmp-bar{gap:10px;padding:10px 12px 10px 16px;bottom:14px;left:16px;right:16px;transform:translateY(140%);max-width:none;justify-content:space-between;}
     .cmp-bar.show{transform:translateY(0);}
@@ -792,7 +805,8 @@
     .panel-foot{gap:18px;flex-wrap:wrap;}
     .panel-foot .stat b{font-size:21px;}
     .filters{padding:14px;}
-    .filters select{min-width:0;flex:1 1 45%;}
+    .filters select{min-width:0;flex:1 1 45%;width:auto;}
+    #fMarca,#fCombustible,#fPrecio,#fOrden{width:auto;flex:1 1 45%;}
     .filters .count{margin-left:0;width:100%;text-align:center;}
     .section-head{margin-bottom:28px;}
     .seg-lead p{font-size:18px;}
